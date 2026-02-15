@@ -216,6 +216,87 @@ exports.createAdminUser = functions
 });
 
 /**
+ * API Function: Create admin user with email and password
+ * תיצור משתמש אדמין עם סיסמא
+ */
+exports.createAdminUserWithPassword = functions
+  .region('us-central1')
+  .https.onCall(async (data, context) => {
+  // Authentication check
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'User must be authenticated'
+    );
+  }
+
+  // Check if caller is admin
+  const callerDoc = await db.collection('users').doc(context.auth.uid).get();
+  if (!callerDoc.exists || callerDoc.data().role !== 'admin') {
+    throw new functions.https.HttpsError(
+      'permission-denied',
+      'Only admins can create admin users'
+    );
+  }
+
+  const { email, password, phone, name } = data;
+
+  // Validate inputs
+  if (!email || !password) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'Email and password are required'
+    );
+  }
+
+  if (password.length < 6) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'Password must be at least 6 characters'
+    );
+  }
+
+  try {
+    // Create auth user with email and password
+    const authUser = await auth.createUser({
+      email: email,
+      password: password,
+      displayName: name || email,
+      phoneNumber: phone || '',
+      disabled: false,
+    });
+
+    // Create user document in Firestore
+    await db.collection('users').doc(authUser.uid).set({
+      email: email,
+      phone: phone || '',
+      name: name || email,
+      role: 'admin',
+      authMethod: 'email-password',
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      authCreatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      authStatus: 'active',
+      createdBy: context.auth.uid,
+    });
+
+    console.log(`Admin user created with email: ${email}`);
+
+    return {
+      success: true,
+      message: `Admin user created with email: ${email}`,
+      uid: authUser.uid,
+      email: email,
+    };
+  } catch (error) {
+    console.error(`Error creating admin user: ${error.message}`);
+    throw new functions.https.HttpsError(
+      'internal',
+      `Failed to create admin user: ${error.message}`
+    );
+  }
+});
+
+/**
  * Scheduled Function: בדיקה שלוקית שכל המשתמשים ב-Firestore קיימים בAuthentication
  */
 exports.syncUsersWithAuth = functions

@@ -1,5 +1,5 @@
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { db } from './firebase';
-import { collection, addDoc, setDoc, doc, Timestamp } from 'firebase/firestore';
 
 export async function createAdminUser() {
   try {
