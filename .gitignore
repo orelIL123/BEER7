@@ -1,0 +1,82 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Firebase
+**/firebase-debug.log
+**/firebase-debug.*.log
+.firebaserc
+
+# Service Account Keys (NEVER commit these!)
+*-firebase-adminsdk-*.json
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.env
+.env.local
+.env.*.local
+
+# Build
+build/
+dist/
+.next/
+out/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Testing
+coverage/
+.nyc_output/
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Android/iOS builds
+android/app/debug/
+android/app/release/
+ios/Pods/
+ios/Podfile.lock
+
+# Miscellaneous
+*.swp
+*.swo
+*~

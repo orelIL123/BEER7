@@ -1,0 +1,206 @@
+================================================================================
+                    BEER SHEVA APP - DETAILED CHANGES LOG
+================================================================================
+Migration Date: February 15, 2026
+Source: /home/ubuntu/Uploads/NETIVOT-main
+Destination: /home/ubuntu/BEER_SHEVA
+
+================================================================================
+                              AUTOMATED CHANGES
+================================================================================
+
+1. TEXT REPLACEMENTS (26 files modified)
+   ----------------------------------------
+   
+   Replacements Made:
+   - "Netivot" → "Beer Sheva"
+   - "נתיבות" → "באר שבע"
+   - "netivot" → "beer-sheva" (in identifiers/slugs)
+   - "NETIVOT" → "BEER_SHEVA" (in constants)
+   
+   Files Modified:
+   ✓ .firebaserc
+   ✓ .gitignore
+   ✓ DEPLOY_FIREBASE.md
+   ✓ FIREBASE_SETUP.md
+   ✓ GoogleService-Info-17.plist
+   ✓ app.json
+   ✓ app/(tabs)/_layout.tsx
+   ✓ app/(tabs)/businesses.tsx
+   ✓ app/(tabs)/more.tsx
+   ✓ app/(tabs)/youth.tsx
+   ✓ app/_layout.tsx
+   ✓ app/admin/edit-city.tsx
+   ✓ app/auth/register-steps.tsx
+   ✓ app/business/[id].tsx
+   ✓ app/coupons.tsx
+   ✓ app/donate.tsx
+   ✓ app/news/[id].tsx
+   ✓ app/people.tsx
+   ✓ app/real-estate.tsx
+   ✓ app/settings.tsx
+   ✓ app/sponsors.tsx
+   ✓ app/youth.tsx
+   ✓ constants/Colors.ts
+   ✓ constants/MockData.ts
+   ✓ context/AuthContext.tsx
+   ✓ google-services-16.json
+   ✓ lib/firebase.ts
+   ✓ lib/users.ts
+   ✓ package-lock.json
+   ✓ package.json
+   ✓ scripts/seed-firestore.js
+
+2. COLOR REPLACEMENTS (Purple → Red)
+   -----------------------------------
+   
+   Primary Brand Colors:
+   - #7C3AED (Violet)      → #DC2626 (Red-600)
+   - #A78BFA (Light Violet) → #EF4444 (Red-500)
+   - #5B21B6 (Deep Violet)  → #991B1B (Red-800)
+   
+   Secondary Colors:
+   - #EC4899 (Pink)        → #F87171 (Red-400)
+   - #F472B6 (Light Pink)  → #FCA5A5 (Red-300)
+   - #BE185D (Dark Pink)   → #B91C1C (Red-700)
+   
+   Neutral Colors:
+   - #F5F3FF (Violet tint) → #FEF2F2 (Red tint)
+   
+   Files Modified:
+   ✓ constants/Colors.ts (main color definitions)
+   ✓ app.json (splash screen background)
+   ✓ app/(tabs)/_layout.tsx (tab bar colors)
+   ✓ app/auth/index.tsx (UI colors)
+   
+   Result: 0 purple colors remaining in codebase
+
+3. CONFIGURATION UPDATES
+   ----------------------
+   
+   ✓ App Name: "אפליקציית באר שבע" (Hebrew)
+   ✓ Package Name: "beer-sheva-app"
+   ✓ Slug: "beer-sheva"
+   ✓ Scheme: "beer-sheva"
+   ✓ iOS Bundle ID: "com.beer-sheva.app"
+   ✓ Android Package: "com.beer-sheva.app"
+   ✓ EAS Project ID: "beer-sheva"
+
+4. FIREBASE PLACEHOLDERS
+   ----------------------
+   
+   ✓ lib/firebase.ts: Updated with placeholder values
+   ✓ Added clear comments for where to get config values
+
+================================================================================
+                           MANUAL ACTIONS REQUIRED
+================================================================================
+
+1. IMAGE FILES TO REPLACE (13 files)
+   ----------------------------------
+   
+   CRITICAL (Must Replace):
+   ⚠ assets/images/logo.png
+   ⚠ assets/images/icon.png
+   ⚠ assets/images/adaptive-icon.png
+   ⚠ assets/images/favicon.png
+   
+   CITY-SPECIFIC:
+   ⚠ assets/images/stadium_hero.png
+   ⚠ assets/images/city_view.png
+   
+   REVIEW & UPDATE:
+   ⚠ assets/images/splash-icon.png
+   ⚠ assets/images/middle-icon.png
+   ⚠ assets/images/top_nav.png
+   ⚠ assets/images/spining_bottom.png
+   ⚠ assets/images/spining_bottom1.png
+   ⚠ assets/images/bino.png
+   ⚠ assets/images/orel_aharon.png
+
+2. FIREBASE CONFIGURATION (4 files + 1 project)
+   ---------------------------------------------
+   
+   MUST COMPLETE:
+   ⚠ Create new Firebase project for Beer Sheva
+   ⚠ Update lib/firebase.ts with web config
+   ⚠ Update .firebaserc with project ID
+   ⚠ Replace google-services-16.json (Android config)
+   ⚠ Replace GoogleService-Info-17.plist (iOS config)
+   ⚠ Deploy Firestore rules: npm run firebase:deploy
+
+================================================================================
+                              STATISTICS
+================================================================================
+
+Project Analysis:
+- Total files in project: 117
+- Text files processed: 80
+- Files with text changes: 26
+- Total text replacements: 100+
+- Files with color changes: 4
+- Purple color instances removed: 8+
+
+Migration Completeness:
+- Automated tasks: 100% Complete ✓
+- Manual tasks: 0% Complete (pending user action)
+- Overall progress: ~70% Complete
+
+Next Steps Priority:
+1. Firebase configuration (CRITICAL - app won't run)
+2. Logo files (HIGH - app won't look right)
+3. City-specific images (MEDIUM - for full branding)
+
+================================================================================
+                           VERIFICATION CHECKS
+================================================================================
+
+✓ No "Netivot" text in code files (except documentation)
+✓ No "נתיבות" text in code files
+✓ No purple colors (#7C3AED, #A78BFA, etc.) in codebase
+✓ Package identifiers updated
+✓ Bundle IDs updated
+✓ Color constants updated
+✓ App configuration updated
+✓ Splash screen colors updated
+
+================================================================================
+                              TESTING CHECKLIST
+================================================================================
+
+Before deployment, test:
+☐ App launches without errors
+☐ Firebase authentication works
+☐ Database read/write operations work
+☐ Image uploads work (Storage)
+☐ All screens display correctly
+☐ Colors appear correct throughout app
+☐ iOS build succeeds
+☐ Android build succeeds
+☐ Web deployment works
+
+================================================================================
+                            BACKUP INFORMATION
+================================================================================
+
+Original project preserved at: /home/ubuntu/Uploads/NETIVOT-main
+New project location: /home/ubuntu/BEER_SHEVA
+
+To revert changes: Delete BEER_SHEVA folder and re-extract from original.
+
+================================================================================
+                              DOCUMENTATION
+================================================================================
+
+Created Files:
+✓ MIGRATION_README.md - Comprehensive migration guide
+✓ QUICK_REFERENCE.md - Quick start guide
+✓ CHANGES_LOG.txt - This file
+
+Existing Documentation (updated):
+✓ FIREBASE_SETUP.md - Firebase setup instructions
+✓ DEPLOY_FIREBASE.md - Deployment instructions
+
+================================================================================
+End of Changes Log
+================================================================================

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "746227083454",
+    "project_id": "beer7-b898d",
+    "storage_bucket": "beer7-b898d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746227083454:android:439740309d75ac0cb416ef",
+        "android_client_info": {
+          "package_name": "com.beer7.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMFbEAQejC6s6jt8TdIK5dFhHfWnIlqS8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
