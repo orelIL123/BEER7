@@ -1,4 +1,3 @@
-import AppBackButton from '@/components/AppBackButton';
 import { isAdminPhone } from '@/constants/admin';
 import Colors from '@/constants/Colors';
 import { useAuth } from '@/context/AuthContext';
@@ -23,7 +22,10 @@ const SECTIONS: AdminSection[] = [
   { icon: 'calendar', label: 'אירועים', description: 'ניהול אירועי העיר', route: '/admin/edit-events', color: Colors.accent },
   { icon: 'pricetag', label: 'קופונים', description: 'הוספת קופונים ומבצעים', route: '/admin/edit-coupons', color: Colors.error },
   { icon: 'business', label: 'עסקים', description: 'עריכת רשימת העסקים', route: '/admin/edit-businesses', color: Colors.blue },
-  { icon: 'home', label: 'מידע עיר', description: 'עריכת פרטי העיר ופרשת שבוע', route: '/admin/edit-city', color: Colors.secondary },
+  { icon: 'book', label: 'תוכן תורני', description: 'דברי תורה, פרשת שבוע, שעות שבת', route: '/admin/edit-torah', color: Colors.primaryDark },
+  { icon: 'home', label: 'נדלן', description: 'ניהול נכסים להשכרה ומכירה', route: '/admin/edit-real-estate', color: Colors.accent },
+  { icon: 'notifications', label: 'שליחת התראה', description: 'שליחת הודעת Push לכל המשתמשים', route: '/admin/send-notification', color: Colors.error },
+  { icon: 'information-circle', label: 'מידע עיר', description: 'עריכת פרטי העיר ופרשת שבוע', route: '/admin/edit-city', color: Colors.secondary },
 ];
 
 export default function AdminDashboard() {
@@ -81,7 +83,6 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <View style={[styles.container, styles.centered]}>
-        <AppBackButton />
         <Text style={styles.msg}>טוען...</Text>
       </View>
     );
@@ -90,7 +91,6 @@ export default function AdminDashboard() {
   if (!user) {
     return (
       <View style={[styles.container, styles.centered]}>
-        <AppBackButton />
         <Ionicons name="person-circle-outline" size={56} color={Colors.mediumGray} />
         <Text style={styles.msg}>יש להתחבר תחילה.</Text>
         <Text style={styles.msgSub}>user = null</Text>
@@ -104,7 +104,6 @@ export default function AdminDashboard() {
   if (!isAdmin) {
     return (
       <View style={[styles.container, styles.centered]}>
-        <AppBackButton />
         <Ionicons name="lock-closed" size={56} color={Colors.error} />
         <Text style={styles.msg}>אין הרשאת ניהול</Text>
         <Text style={styles.msgSub} selectable>📱 {user.phoneNumber}</Text>
@@ -118,7 +117,6 @@ export default function AdminDashboard() {
 
   return (
     <View style={{ flex: 1 }}>
-      <AppBackButton dark />
       <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
         <LinearGradient colors={[Colors.primary, Colors.primaryDark]} style={styles.hero}>
           <Ionicons name="shield-checkmark" size={40} color="rgba(255,255,255,0.9)" />

@@ -1,1 +1,62 @@
-{"expo":{"name":"אפליקציית באר שבע","slug":"beer-sheva","version":"1.0.0","orientation":"portrait","icon":"./assets/images/logo.png","scheme":"beer-sheva","userInterfaceStyle":"automatic","newArchEnabled":true,"splash":{"image":"./assets/images/logo.png","resizeMode":"contain","backgroundColor":"#DC2626"},"ios":{"supportsTablet":true,"bundleIdentifier":"com.beer-sheva.app","googleServicesFile":"./GoogleService-Info-17.plist"},"android":{"adaptiveIcon":{"foregroundImage":"./assets/images/logo.png","backgroundColor":"#DC2626"},"edgeToEdgeEnabled":true,"package":"com.beer-sheva.app","googleServicesFile":"./google-services-16.json"},"web":{"bundler":"metro","output":"static","favicon":"./assets/images/logo.png"},"plugins":["expo-router","expo-updates"],"experiments":{"typedRoutes":true},"extra":{"eas":{"projectId":"beer-sheva"}},"updates":{"enabled":true,"checkAutomatically":"ON_LOAD","fallbackToCacheTimeout":0},"runtimeVersion":{"policy":"appVersion"}}}
+{
+  "expo": {
+    "name": "באר שבע שלי",
+    "slug": "beer7",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/appstore-icon.png",
+    "scheme": "beer-sheva",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#DC2626"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.beer-sheva.app",
+      "googleServicesFile": "./GoogleService-Info-17.plist",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/appstore-icon.png",
+        "backgroundColor": "#DC2626"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.beer-sheva.app",
+      "googleServicesFile": "./google-services-16.json"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/logo.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-updates",
+      ["expo-build-properties",{"ios":{"extraPods":[{"name":"GoogleUtilities","modular_headers":true},{"name":"FirebaseCore","modular_headers":true},{"name":"nanopb","modular_headers":true}]}}]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b3d2a29d-f462-4b30-9dde-3cb8120533ce"
+      },
+      "router": {}
+    },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "owner": "orel_895"
+  }
+}

@@ -15,7 +15,7 @@ export function getPhoneDocId(phone: string): string {
   return normalizePhoneForDoc(phone);
 }
 
-const AUTH_EMAIL_SUFFIX = '@netivot.auth';
+const AUTH_EMAIL_SUFFIX = '@beersheva.auth';
 
 /** להצגה ב-Firebase Authentication – אימייל סינטטי מהטלפון */
 export function phoneToAuthEmail(phone: string): string {

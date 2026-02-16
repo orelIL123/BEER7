@@ -8,8 +8,8 @@ import { Stack } from 'expo-router';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import {
-  ActivityIndicator, KeyboardAvoidingView, Platform,
-  ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
+  ActivityIndicator, Keyboard, KeyboardAvoidingView, Platform,
+  ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View,
 } from 'react-native';
 
 type CityConfig = {
@@ -149,7 +149,8 @@ export default function EditCityScreen() {
     <>
       <Stack.Screen options={{ title: 'עריכת מידע עיר', headerBackTitle: 'חזרה', headerTintColor: Colors.primary }} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView style={styles.container} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
           {error && (
             <View style={styles.errorBox}>
               <Ionicons name="alert-circle" size={18} color={Colors.error} />
@@ -185,7 +186,8 @@ export default function EditCityScreen() {
             )}
           </TouchableOpacity>
           <View style={{ height: 40 }} />
-        </ScrollView>
+          </ScrollView>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </>
   );

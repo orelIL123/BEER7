@@ -1,0 +1,28 @@
+{
+  "cli": {
+    "version": ">= 3.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal",
+      "ios": {
+        "simulator": false
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "distribution": "store",
+      "ios": {
+        "resourceClass": "m-medium"
+      },
+      "env": {
+        "EXPO_PUBLIC_ENV": "production"
+      }
+    }
+  }
+}

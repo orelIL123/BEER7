@@ -1,4 +1,3 @@
-import AppBackButton from '@/components/AppBackButton';
 import { isAdminPhone } from '@/constants/admin';
 import Colors from '@/constants/Colors';
 import type { ArticleSubmission } from '@/constants/Types';
@@ -72,7 +71,6 @@ export default function AdminArticlesScreen() {
   if (!user) {
     return (
       <View style={styles.container}>
-        <AppBackButton />
         <View style={styles.centered}><Text style={styles.msg}>יש להתחבר.</Text>
           <TouchableOpacity style={styles.btn} onPress={() => router.replace('/auth')}><Text style={styles.btnText}>התחבר</Text></TouchableOpacity>
         </View>
@@ -83,7 +81,6 @@ export default function AdminArticlesScreen() {
   if (!isAdmin) {
     return (
       <View style={styles.container}>
-        <AppBackButton />
         <View style={styles.centered}><Text style={styles.msg}>אין הרשאה.</Text>
           <TouchableOpacity style={styles.btn} onPress={() => router.back()}><Text style={styles.btnText}>חזרה</Text></TouchableOpacity>
         </View>
@@ -93,10 +90,9 @@ export default function AdminArticlesScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      <AppBackButton />
       <ScrollView
         style={styles.container}
-        contentContainerStyle={[styles.scrollContent, { paddingTop: 100 }]}
+        contentContainerStyle={styles.scrollContent}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} colors={[Colors.primary]} />}
       >
         <TouchableOpacity style={styles.addArticleBtn} onPress={() => router.push('/admin/add-article')} activeOpacity={0.8}>
@@ -140,7 +136,7 @@ export default function AdminArticlesScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.offWhite },
   scrollContent: { padding: 16, paddingBottom: 40 },
-  centered: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24, paddingTop: 100 },
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 },
   msg: { fontSize: 16, color: Colors.darkGray, textAlign: 'center' },
   btn: { marginTop: 20, backgroundColor: Colors.primary, paddingHorizontal: 24, paddingVertical: 12, borderRadius: 12 },
   btnText: { color: Colors.white, fontWeight: '700', fontSize: 16 },

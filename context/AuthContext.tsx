@@ -17,7 +17,7 @@ import {
 } from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-const STORAGE_KEY = 'netivot_user';
+const STORAGE_KEY = '@beer_sheva_user';
 
 export type AuthUser = {
   phoneNumber: string;

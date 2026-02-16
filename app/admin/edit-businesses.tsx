@@ -8,8 +8,8 @@ import { Stack } from 'expo-router';
 import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import {
-  ActivityIndicator, Alert, KeyboardAvoidingView, Platform,
-  ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
+  ActivityIndicator, Alert, Keyboard, KeyboardAvoidingView, Platform,
+  ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View,
 } from 'react-native';
 
 type Business = {
@@ -131,7 +131,8 @@ export default function EditBusinessesScreen() {
     <>
       <Stack.Screen options={{ title: 'עריכת עסקים', headerBackTitle: 'חזרה', headerTintColor: Colors.primary }} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView style={styles.container} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
           <TouchableOpacity style={styles.addBtn} onPress={() => { setEditing({ id: '__new__', ...EMPTY }); setForm(EMPTY); }}>
             <Ionicons name="add-circle" size={20} color={Colors.white} />
             <Text style={styles.addBtnText}>הוסף עסק חדש</Text>
@@ -205,7 +206,8 @@ export default function EditBusinessesScreen() {
             ))
           )}
           <View style={{ height: 40 }} />
-        </ScrollView>
+          </ScrollView>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </>
   );

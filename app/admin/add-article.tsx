@@ -7,7 +7,7 @@ import { addArticleAsAdmin } from '@/lib/articles';
 import { Ionicons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 const CATEGORIES: { id: NewsArticle['category']; label: string }[] = [
   { id: 'news', label: 'חדשות' },
@@ -82,8 +82,9 @@ export default function AdminAddArticleScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'הוסף כתבה (אדמין)', headerBackTitle: 'חזרה', headerTintColor: Colors.primary }} />
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={80}>
-        <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={80}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
           <Text style={styles.hint}>הכתבה תפורסם מיד.</Text>
           <Text style={styles.label}>כותרת *</Text>
           <TextInput style={styles.input} value={title} onChangeText={setTitle} placeholder="כותרת" placeholderTextColor={Colors.mediumGray} />
@@ -107,7 +108,8 @@ export default function AdminAddArticleScreen() {
             {submitting ? <ActivityIndicator color={Colors.white} /> : (<><Ionicons name="checkmark-circle" size={20} color={Colors.white} /><Text style={styles.submitBtnText}>פרסם כתבה</Text></>)}
           </TouchableOpacity>
           <View style={{ height: 40 }} />
-        </ScrollView>
+          </ScrollView>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </>
   );

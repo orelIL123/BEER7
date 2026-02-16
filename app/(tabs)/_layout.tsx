@@ -24,6 +24,7 @@ const BASE_MENU_ITEMS: MenuItem[] = [
   { icon: 'book', label: 'תוכן תורני', route: '/torah', color: Colors.primaryDark },
   { icon: 'people-sharp', label: 'אישים', route: '/people', color: Colors.success },
   { icon: 'images-sharp', label: 'גלריה', route: '/gallery', color: Colors.vibrantGradient[0] },
+  { icon: 'videocam-sharp', label: 'כישרונות', route: '/talents', color: Colors.accent },
   { icon: 'home', label: 'נדלן', route: '/real-estate', color: Colors.primaryDark },
   { icon: 'business-sharp', label: 'עסקים', route: '/sponsors', color: Colors.accent },
   { icon: 'people', label: 'קהילה', route: '/(tabs)/community', color: Colors.blue },

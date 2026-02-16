@@ -232,4 +232,39 @@ export interface DvarTorah {
   date: string;
   /** שם המחבר/המגיד (אופציונלי) */
   author?: string;
+  /** תמונת הרב/מחבר (אופציונלי) */
+  authorImage?: string;
+  /** קישור לסרטון YouTube (אופציונלי) */
+  videoUrl?: string;
+}
+
+/** כישרון מקומי – סרטון או גלריית תמונות */
+export interface Talent {
+  id: string;
+  title: string;
+  /** תיאור מלא – אם קיים, כפתור "המשך לקרוא" */
+  description?: string;
+  type: 'video' | 'image';
+  /** קישור לסרטון (כשtype=video) */
+  videoUrl?: string;
+  /** תמונות (כשtype=image) */
+  images?: string[];
+  date: string;
+}
+
+/** נכס להשכרה או מכירה */
+export interface RealEstateListing {
+  id: string;
+  title: string;
+  description: string;
+  address: string;
+  /** מחיר או שכר דירה – אופציונלי */
+  price?: string;
+  type: 'sale' | 'rent';
+  /** תמונות הנכס – תאימות לאחור: אם קיים רק image, נשתמש ב-[image] */
+  images: string[];
+  /** שם המתווך */
+  agentName?: string;
+  /** תמונת המתווך */
+  agentImage?: string;
 }

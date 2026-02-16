@@ -1,3 +1,4 @@
+import AdminBackButton from '@/components/AdminBackButton';
 import LoadingApp from '@/components/LoadingApp';
 import Colors from '@/constants/Colors';
 import { AuthProvider } from '@/context/AuthContext';
@@ -159,7 +160,7 @@ export default function RootLayout() {
         />
         <Stack.Screen
           name="torah"
-          options={{ headerShown: true, title: 'תוכן תורני' }}
+          options={{ headerShown: true, title: 'תוכן תורני', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }}
         />
         <Stack.Screen
           name="health-safety"
@@ -179,16 +180,20 @@ export default function RootLayout() {
             headerShadowVisible: false,
           }}
         />
-        <Stack.Screen name="real-estate" options={{ headerShown: true, title: 'נדלן', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary }} />
-        <Stack.Screen name="real-estate/[id]" options={{ headerShown: true, title: 'פרטי נכס', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary }} />
-        <Stack.Screen name="admin/index" options={{ headerShown: true, title: 'לוח ניהול', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary }} />
-        <Stack.Screen name="admin/articles" options={{ headerShown: true, title: 'אישור כתבות', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary }} />
-        <Stack.Screen name="admin/add-article" options={{ headerShown: true, title: 'הוסף כתבה', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary }} />
-        <Stack.Screen name="admin/edit-people" options={{ headerShown: true, title: 'עריכת אנשים', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary }} />
-        <Stack.Screen name="admin/edit-events" options={{ headerShown: true, title: 'עריכת אירועים', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary }} />
-        <Stack.Screen name="admin/edit-coupons" options={{ headerShown: true, title: 'עריכת קופונים', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary }} />
-        <Stack.Screen name="admin/edit-businesses" options={{ headerShown: true, title: 'עריכת עסקים', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary }} />
-        <Stack.Screen name="admin/edit-city" options={{ headerShown: true, title: 'עריכת מידע עיר', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary }} />
+        <Stack.Screen name="real-estate" options={{ headerShown: true, title: 'נדלן', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="real-estate/[id]" options={{ headerShown: true, title: 'פרטי נכס', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="talents" options={{ headerShown: true, title: 'כישרונות', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="admin/index" options={{ headerShown: true, title: 'לוח ניהול', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="admin/articles" options={{ headerShown: true, title: 'אישור כתבות', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="admin/add-article" options={{ headerShown: true, title: 'הוסף כתבה', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="admin/edit-people" options={{ headerShown: true, title: 'עריכת אנשים', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="admin/edit-events" options={{ headerShown: true, title: 'עריכת אירועים', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="admin/edit-coupons" options={{ headerShown: true, title: 'עריכת קופונים', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="admin/edit-businesses" options={{ headerShown: true, title: 'עריכת עסקים', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="admin/edit-city" options={{ headerShown: true, title: 'עריכת מידע עיר', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="admin/edit-torah" options={{ headerShown: true, title: 'עריכת תוכן תורני', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="admin/edit-real-estate" options={{ headerShown: true, title: 'עריכת נדלן', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
+        <Stack.Screen name="admin/send-notification" options={{ headerShown: true, title: 'שליחת התראה', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary, headerBackTitle: 'חזרה', headerLeft: () => <AdminBackButton /> }} />
         <Stack.Screen name="submit-article" options={{ headerShown: true, title: 'הגשת כתבה', headerStyle: { backgroundColor: Colors.white }, headerTintColor: Colors.primary }} />
         <Stack.Screen
           name="auth"

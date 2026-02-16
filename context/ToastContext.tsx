@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { Toast, ToastType } from '../components/Toast';
 
-const DISMISSED_IDS_KEY = '@netivot_dismissed_notification_ids';
+const DISMISSED_IDS_KEY = '@beer_sheva_dismissed_notification_ids';
 
 interface ToastContextData {
     showToast: (message: string, type?: ToastType, duration?: number) => void;

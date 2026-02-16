@@ -76,6 +76,9 @@ android/app/release/
 ios/Pods/
 ios/Podfile.lock
 
+# Design source files (large)
+*.psd
+
 # Miscellaneous
 *.swp
 *.swo
