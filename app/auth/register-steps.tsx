@@ -17,12 +17,14 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
+import { sendOtp, verifyOtp } from '@/lib/sms';
 
 const STEPS = [
   { key: 'firstName', title: 'שם פרטי', subtitle: 'איך לקרוא לך', icon: 'person' as const, placeholder: 'שם פרטי' },
   { key: 'lastName', title: 'שם משפחה', subtitle: 'שם המשפחה', icon: 'card' as const, placeholder: 'שם משפחה' },
   { key: 'isResident', title: 'תושב באר שבע?', subtitle: 'האם אתה תושב העיר באר שבע', icon: 'home' as const },
-  { key: 'phone', title: 'מספר נייד', subtitle: 'לחיבור לחשבון', icon: 'call' as const, placeholder: '050-1234567' },
+  { key: 'phone', title: 'מספר נייד', subtitle: 'נשלח אליך קוד אימות', icon: 'call' as const, placeholder: '050-1234567' },
+  { key: 'otp', title: 'קוד אימות', subtitle: 'הזן את הקוד שנשלח אליך ב-SMS', icon: 'shield-checkmark' as const, placeholder: '123456' },
   { key: 'password', title: 'בחר סיסמא', subtitle: 'לפחות 6 תווים', icon: 'lock-closed' as const, placeholder: '••••••••', secure: true },
 ] as const;
 
@@ -35,11 +37,15 @@ export default function RegisterStepsScreen() {
     lastName: '',
     isResident: false,
     phone: '',
+    otp: '',
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [inputError, setInputError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [sendingSms, setSendingSms] = useState(false);
+  const [countdown, setCountdown] = useState(60);
+  const [canResend, setCanResend] = useState(false);
 
   const contentOpacity = useRef(new Animated.Value(1)).current;
   const slideX = useRef(new Animated.Value(0)).current;
@@ -54,7 +60,23 @@ export default function RegisterStepsScreen() {
       useNativeDriver: false,
     }).start();
     if (STEPS[step].key !== 'isResident') setTimeout(() => inputRef.current?.focus(), 300);
-  }, [step]);
+    
+    // Start countdown when on OTP step
+    if (STEPS[step].key === 'otp' && countdown > 0) {
+      setCanResend(false);
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            setCanResend(true);
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [step, countdown]);
 
   const currentStep = STEPS[step];
   const currentValue = () => {
@@ -93,6 +115,13 @@ export default function RegisterStepsScreen() {
         return false;
       }
     }
+    if (currentStep.key === 'otp') {
+      const v = (currentValue() as string).trim();
+      if (v.length !== 6 || !/^\d{6}$/.test(v)) {
+        shakeError('נא להזין קוד בן 6 ספרות');
+        return false;
+      }
+    }
     if (currentStep.key === 'password') {
       const v = (currentValue() as string).trim();
       if (v.length < 6) {
@@ -110,6 +139,71 @@ export default function RegisterStepsScreen() {
       Animated.timing(inputShake, { toValue: -8, duration: 60, useNativeDriver: true }),
       Animated.timing(inputShake, { toValue: 0, duration: 60, useNativeDriver: true }),
     ]).start();
+  }
+
+  async function handleSendSms() {
+    const digits = normalizePhone(values.phone);
+    if (digits.length < 9) {
+      shakeError('נא להזין מספר נייד תקין');
+      return;
+    }
+    
+    setSendingSms(true);
+    setInputError('');
+    
+    try {
+      await sendOtp(digits);
+      // Reset countdown
+      setCountdown(60);
+      setCanResend(false);
+      // Move to OTP step
+      goToStep(step + 1, 1);
+    } catch (error: any) {
+      console.error('[SendSMS]', error);
+      const msg = error?.message?.includes('Too many attempts')
+        ? 'יותר מדי ניסיונות. נסה שוב מאוחר יותר.'
+        : 'שגיאה בשליחת SMS. נסה שוב.';
+      setInputError(msg);
+      Alert.alert('שגיאה', msg);
+    } finally {
+      setSendingSms(false);
+    }
+  }
+
+  async function handleVerifyOtp() {
+    const code = values.otp.trim();
+    if (code.length !== 6) {
+      shakeError('נא להזין קוד בן 6 ספרות');
+      return;
+    }
+    
+    setSendingSms(true);
+    setInputError('');
+    
+    try {
+      const digits = normalizePhone(values.phone);
+      await verifyOtp(digits, code);
+      // Move to password step
+      goToStep(step + 1, 1);
+    } catch (error: any) {
+      console.error('[VerifyOTP]', error);
+      let msg = 'קוד שגוי. נסה שוב.';
+      if (error?.message?.includes('expired')) {
+        msg = 'הקוד פג תוקף. שלח קוד חדש.';
+      } else if (error?.message?.includes('not found')) {
+        msg = 'לא נמצא קוד. שלח קוד חדש.';
+      }
+      setInputError(msg);
+      shakeError(msg);
+    } finally {
+      setSendingSms(false);
+    }
+  }
+
+  async function handleResendSms() {
+    setCountdown(60);
+    setCanResend(false);
+    await handleSendSms();
   }
 
   function goToStep(next: number, direction: 1 | -1) {
@@ -130,6 +224,19 @@ export default function RegisterStepsScreen() {
 
   function handleNext() {
     if (!validate()) return;
+    
+    // Special handling for phone step - send SMS
+    if (currentStep.key === 'phone') {
+      handleSendSms();
+      return;
+    }
+    
+    // Special handling for OTP step - verify code
+    if (currentStep.key === 'otp') {
+      handleVerifyOtp();
+      return;
+    }
+    
     if (step < STEPS.length - 1) {
       goToStep(step + 1, 1);
     } else {
@@ -176,6 +283,7 @@ export default function RegisterStepsScreen() {
 
   const isResidentStep = currentStep.key === 'isResident';
   const isPhoneStep = currentStep.key === 'phone';
+  const isOtpStep = currentStep.key === 'otp';
   const isPasswordStep = currentStep.key === 'password';
 
   return (
@@ -248,7 +356,7 @@ export default function RegisterStepsScreen() {
             <Text style={styles.stepTitle}>{currentStep.title}</Text>
             <Text style={styles.stepSubtitle}>{currentStep.subtitle}</Text>
 
-            {isResidentStep ? (
+             {isResidentStep ? (
               <View style={styles.residentRow}>
                 <TouchableOpacity
                   style={[styles.residentBtn, values.isResident && styles.residentBtnActive]}
@@ -265,6 +373,46 @@ export default function RegisterStepsScreen() {
                   <Text style={[styles.residentBtnText, !values.isResident && styles.residentBtnTextActive]}>לא</Text>
                 </TouchableOpacity>
               </View>
+            ) : isOtpStep ? (
+              <>
+                <Animated.View
+                  style={[styles.inputWrap, { transform: [{ translateX: inputShake }] }]}
+                >
+                  <TextInput
+                    ref={inputRef}
+                    style={styles.input}
+                    placeholder={currentStep.placeholder}
+                    placeholderTextColor={Colors.mediumGray}
+                    value={currentValue() as string}
+                    onChangeText={(t) =>
+                      setValues((v) => ({
+                        ...v,
+                        otp: t.replace(/[^\d]/g, ''),
+                      }))
+                    }
+                    keyboardType="number-pad"
+                    maxLength={6}
+                    textAlign="center"
+                    editable={!sendingSms}
+                  />
+                </Animated.View>
+                <View style={styles.otpTimerRow}>
+                  {countdown > 0 ? (
+                    <Text style={styles.otpTimer}>
+                      ניתן לשלוח קוד חדש בעוד {countdown} שניות
+                    </Text>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={handleResendSms}
+                      disabled={sendingSms}
+                      style={styles.resendBtn}
+                    >
+                      <Ionicons name="refresh" size={18} color={Colors.primary} />
+                      <Text style={styles.resendBtnText}>שלח קוד חדש</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </>
             ) : (
               <>
                 {isPasswordStep ? (
@@ -334,30 +482,51 @@ export default function RegisterStepsScreen() {
 
           <View style={styles.footer}>
             <TouchableOpacity
-              style={[styles.nextBtn, submitting && styles.nextBtnDisabled]}
+              style={[styles.nextBtn, (submitting || sendingSms) && styles.nextBtnDisabled]}
               onPress={handleNext}
-              disabled={submitting || (isResidentStep ? false : isPasswordStep ? (values.password || '').trim().length < 6 : !String(currentValue()).trim())}
+              disabled={
+                submitting || 
+                sendingSms || 
+                (isResidentStep ? false : 
+                  isPasswordStep ? (values.password || '').trim().length < 6 : 
+                  isOtpStep ? values.otp.length !== 6 :
+                  !String(currentValue()).trim())
+              }
             >
               <LinearGradient
                 colors={
-                  submitting || (isResidentStep ? false : isPasswordStep ? (values.password || '').trim().length < 6 : !String(currentValue()).trim())
+                  submitting || sendingSms || 
+                  (isResidentStep ? false : 
+                    isPasswordStep ? (values.password || '').trim().length < 6 : 
+                    isOtpStep ? values.otp.length !== 6 :
+                    !String(currentValue()).trim())
                     ? [Colors.lightGray, Colors.lightGray]
                     : [Colors.primary, Colors.primaryDark]
                 }
                 style={styles.nextGradient}
               >
-                {submitting ? (
+                {(submitting || sendingSms) ? (
                   <ActivityIndicator color={Colors.white} />
                 ) : (
                   <>
                     <Text style={styles.nextText}>
-                      {step === STEPS.length - 1 ? 'סיום הרשמה' : 'המשך'}
+                      {step === STEPS.length - 1 
+                        ? 'סיום הרשמה' 
+                        : isPhoneStep 
+                        ? 'שלח קוד SMS' 
+                        : isOtpStep
+                        ? 'אמת קוד'
+                        : 'המשך'}
                     </Text>
                     <Ionicons
                       name={step === STEPS.length - 1 ? 'checkmark' : 'arrow-back'}
                       size={22}
                       color={
-                        submitting || (isResidentStep ? false : isPasswordStep ? (values.password || '').trim().length < 6 : !String(currentValue()).trim())
+                        submitting || sendingSms || 
+                        (isResidentStep ? false : 
+                          isPasswordStep ? (values.password || '').trim().length < 6 : 
+                          isOtpStep ? values.otp.length !== 6 :
+                          !String(currentValue()).trim())
                           ? Colors.mediumGray
                           : Colors.white
                       }
@@ -490,6 +659,27 @@ const styles = StyleSheet.create({
   },
   residentBtnText: { fontSize: 18, fontWeight: '700', color: Colors.mediumGray },
   residentBtnTextActive: { color: Colors.white },
+  otpTimerRow: {
+    marginTop: 12,
+    alignItems: 'center',
+  },
+  otpTimer: {
+    fontSize: 14,
+    color: Colors.mediumGray,
+    fontWeight: '500',
+  },
+  resendBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  resendBtnText: {
+    fontSize: 15,
+    color: Colors.primary,
+    fontWeight: '600',
+  },
   errorRow: {
     flexDirection: 'row',
     alignItems: 'center',

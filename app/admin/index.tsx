@@ -5,8 +5,9 @@ import { useAuth } from '@/context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Stack, useRouter } from 'expo-router';
-import React, { useEffect } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import * as Updates from 'expo-updates';
+import React, { useEffect, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 
 type AdminSection = {
   icon: keyof typeof Ionicons.glyphMap;
@@ -29,12 +30,53 @@ export default function AdminDashboard() {
   const router = useRouter();
   const { user, loading } = useAuth();
   const isAdmin = isAdminPhone(user?.phoneNumber ?? undefined);
+  const [checkingUpdate, setCheckingUpdate] = useState(false);
 
   useEffect(() => {
     console.log('[Admin] user:', JSON.stringify(user));
     console.log('[Admin] phoneNumber:', user?.phoneNumber);
     console.log('[Admin] isAdmin:', isAdmin);
   }, [user, isAdmin]);
+
+  async function checkForUpdates() {
+    try {
+      setCheckingUpdate(true);
+      const update = await Updates.checkForUpdateAsync();
+      
+      if (update.isAvailable) {
+        Alert.alert(
+          'עדכון זמין',
+          'נמצא עדכון חדש לאפליקציה. האם להתקין עכשיו?',
+          [
+            { text: 'מאוחר יותר', style: 'cancel' },
+            {
+              text: 'התקן עכשיו',
+              onPress: async () => {
+                try {
+                  await Updates.fetchUpdateAsync();
+                  Alert.alert(
+                    'עדכון הותקן',
+                    'האפליקציה תאתחל עכשיו כדי להחיל את העדכון.',
+                    [{ text: 'אישור', onPress: () => Updates.reloadAsync() }]
+                  );
+                } catch (error) {
+                  console.error('Error fetching update:', error);
+                  Alert.alert('שגיאה', 'לא ניתן להתקין את העדכון');
+                }
+              },
+            },
+          ]
+        );
+      } else {
+        Alert.alert('אין עדכונים', 'האפליקציה מעודכנת לגרסה האחרונה');
+      }
+    } catch (error) {
+      console.error('Error checking for updates:', error);
+      Alert.alert('שגיאה', 'לא ניתן לבדוק עדכונים');
+    } finally {
+      setCheckingUpdate(false);
+    }
+  }
 
   if (loading) {
     return (
@@ -84,6 +126,33 @@ export default function AdminDashboard() {
           <Text style={styles.heroSub}>שלום, {user.firstName ?? user.phoneNumber}</Text>
         </LinearGradient>
 
+        {/* OTA Update Button */}
+        <View style={styles.updateSection}>
+          <TouchableOpacity
+            style={styles.updateButton}
+            onPress={checkForUpdates}
+            disabled={checkingUpdate}
+            activeOpacity={0.8}
+          >
+            <View style={styles.updateButtonContent}>
+              <Ionicons name="cloud-download-outline" size={24} color={Colors.white} />
+              <View style={styles.updateButtonText}>
+                <Text style={styles.updateButtonTitle}>
+                  {checkingUpdate ? 'בודק עדכונים...' : 'בדוק עדכוני OTA'}
+                </Text>
+                <Text style={styles.updateButtonSubtitle}>
+                  עדכונים מהירים ללא חנות אפליקציות
+                </Text>
+              </View>
+              {checkingUpdate ? (
+                <ActivityIndicator color={Colors.white} />
+              ) : (
+                <Ionicons name="chevron-back" size={20} color="rgba(255,255,255,0.7)" />
+              )}
+            </View>
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.grid}>
           {SECTIONS.map((sec) => (
             <TouchableOpacity
@@ -117,6 +186,35 @@ const styles = StyleSheet.create({
   hero: { padding: 32, paddingTop: 60, alignItems: 'center', gap: 8 },
   heroTitle: { fontSize: 28, fontWeight: '900', color: Colors.white },
   heroSub: { fontSize: 15, color: 'rgba(255,255,255,0.8)', fontWeight: '600' },
+  updateSection: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 8 },
+  updateButton: {
+    backgroundColor: Colors.accent,
+    borderRadius: 16,
+    padding: 16,
+    elevation: 3,
+    shadowColor: Colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+  },
+  updateButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  updateButtonText: {
+    flex: 1,
+  },
+  updateButtonTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: Colors.white,
+    marginBottom: 2,
+  },
+  updateButtonSubtitle: {
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.8)',
+  },
   grid: { padding: 16, flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
   card: {
     width: '47%', backgroundColor: Colors.white, borderRadius: 20, padding: 16,
