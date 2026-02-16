@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import { isAdminPhone } from '@/constants/admin';
 import Colors from '@/constants/Colors';
 import type { ArticleSubmission } from '@/constants/Types';
@@ -71,7 +72,7 @@ export default function AdminArticlesScreen() {
   if (!user) {
     return (
       <View style={styles.container}>
-        <Stack.Screen options={{ title: 'ניהול כתבות' }} />
+        <AppBackButton />
         <View style={styles.centered}><Text style={styles.msg}>יש להתחבר.</Text>
           <TouchableOpacity style={styles.btn} onPress={() => router.replace('/auth')}><Text style={styles.btnText}>התחבר</Text></TouchableOpacity>
         </View>
@@ -82,7 +83,7 @@ export default function AdminArticlesScreen() {
   if (!isAdmin) {
     return (
       <View style={styles.container}>
-        <Stack.Screen options={{ title: 'ניהול כתבות' }} />
+        <AppBackButton />
         <View style={styles.centered}><Text style={styles.msg}>אין הרשאה.</Text>
           <TouchableOpacity style={styles.btn} onPress={() => router.back()}><Text style={styles.btnText}>חזרה</Text></TouchableOpacity>
         </View>
@@ -91,9 +92,13 @@ export default function AdminArticlesScreen() {
   }
 
   return (
-    <>
-      <Stack.Screen options={{ title: 'אישור כתבות', headerBackTitle: 'חזרה', headerTintColor: Colors.primary }} />
-      <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} colors={[Colors.primary]} />}>
+    <View style={{ flex: 1 }}>
+      <AppBackButton />
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={[styles.scrollContent, { paddingTop: 100 }]}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} colors={[Colors.primary]} />}
+      >
         <TouchableOpacity style={styles.addArticleBtn} onPress={() => router.push('/admin/add-article')} activeOpacity={0.8}>
           <Ionicons name="add-circle" size={22} color={Colors.white} />
           <Text style={styles.addArticleBtnText}>הוסף כתבה (פרסום ישיר)</Text>
@@ -128,14 +133,14 @@ export default function AdminArticlesScreen() {
         )}
         <View style={{ height: 40 }} />
       </ScrollView>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.offWhite },
   scrollContent: { padding: 16, paddingBottom: 40 },
-  centered: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 },
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24, paddingTop: 100 },
   msg: { fontSize: 16, color: Colors.darkGray, textAlign: 'center' },
   btn: { marginTop: 20, backgroundColor: Colors.primary, paddingHorizontal: 24, paddingVertical: 12, borderRadius: 12 },
   btnText: { color: Colors.white, fontWeight: '700', fontSize: 16 },
@@ -149,9 +154,9 @@ const styles = StyleSheet.create({
   categoryBadge: { backgroundColor: Colors.primary + '20', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
   categoryText: { fontSize: 12, fontWeight: '700', color: Colors.primary },
   dateText: { fontSize: 12, color: Colors.mediumGray },
-  cardTitle: { fontSize: 17, fontWeight: '800', color: Colors.black, marginBottom: 6 },
-  cardSummary: { fontSize: 14, color: Colors.darkGray, lineHeight: 20, marginBottom: 8 },
-  authorText: { fontSize: 12, color: Colors.mediumGray, marginBottom: 12 },
+  cardTitle: { fontSize: 17, fontWeight: '800', color: Colors.black, marginBottom: 6, textAlign: 'right' },
+  cardSummary: { fontSize: 14, color: Colors.darkGray, lineHeight: 20, marginBottom: 8, textAlign: 'right' },
+  authorText: { fontSize: 12, color: Colors.mediumGray, marginBottom: 12, textAlign: 'right' },
   actions: { flexDirection: 'row', gap: 10, justifyContent: 'flex-end' },
   actionBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 12, minWidth: 90, justifyContent: 'center' },
   rejectBtn: { backgroundColor: Colors.error },

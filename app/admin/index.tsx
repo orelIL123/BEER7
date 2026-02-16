@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import { isAdminPhone } from '@/constants/admin';
 import Colors from '@/constants/Colors';
 import { useAuth } from '@/context/AuthContext';
@@ -38,7 +39,7 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <View style={[styles.container, styles.centered]}>
-        <Stack.Screen options={{ title: 'ניהול' }} />
+        <AppBackButton />
         <Text style={styles.msg}>טוען...</Text>
       </View>
     );
@@ -47,7 +48,7 @@ export default function AdminDashboard() {
   if (!user) {
     return (
       <View style={[styles.container, styles.centered]}>
-        <Stack.Screen options={{ title: 'ניהול' }} />
+        <AppBackButton />
         <Ionicons name="person-circle-outline" size={56} color={Colors.mediumGray} />
         <Text style={styles.msg}>יש להתחבר תחילה.</Text>
         <Text style={styles.msgSub}>user = null</Text>
@@ -61,7 +62,7 @@ export default function AdminDashboard() {
   if (!isAdmin) {
     return (
       <View style={[styles.container, styles.centered]}>
-        <Stack.Screen options={{ title: 'ניהול' }} />
+        <AppBackButton />
         <Ionicons name="lock-closed" size={56} color={Colors.error} />
         <Text style={styles.msg}>אין הרשאת ניהול</Text>
         <Text style={styles.msgSub} selectable>📱 {user.phoneNumber}</Text>
@@ -74,8 +75,8 @@ export default function AdminDashboard() {
   }
 
   return (
-    <>
-      <Stack.Screen options={{ title: 'לוח ניהול', headerBackTitle: 'חזרה', headerTintColor: Colors.primary }} />
+    <View style={{ flex: 1 }}>
+      <AppBackButton dark />
       <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
         <LinearGradient colors={[Colors.primary, Colors.primaryDark]} style={styles.hero}>
           <Ionicons name="shield-checkmark" size={40} color="rgba(255,255,255,0.9)" />
@@ -96,24 +97,24 @@ export default function AdminDashboard() {
               </View>
               <Text style={styles.cardLabel}>{sec.label}</Text>
               <Text style={styles.cardDesc}>{sec.description}</Text>
-              <Ionicons name="chevron-back" size={16} color={Colors.mediumGray} style={styles.cardArrow} />
+              <Ionicons name="chevron-forward" size={16} color={Colors.mediumGray} style={styles.cardArrow} />
             </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.offWhite },
   scrollContent: { paddingBottom: 40 },
-  centered: { alignItems: 'center', justifyContent: 'center', padding: 32, gap: 12 },
+  centered: { alignItems: 'center', justifyContent: 'center', padding: 32, gap: 12, paddingTop: 100 },
   msg: { fontSize: 18, color: Colors.darkGray, textAlign: 'center', fontWeight: '700' },
   msgSub: { fontSize: 13, color: Colors.mediumGray, textAlign: 'center' },
   actionBtn: { backgroundColor: Colors.primary, paddingHorizontal: 28, paddingVertical: 12, borderRadius: 14, marginTop: 8 },
   actionBtnText: { color: Colors.white, fontWeight: '700', fontSize: 16 },
-  hero: { padding: 32, paddingTop: 40, alignItems: 'center', gap: 8 },
+  hero: { padding: 32, paddingTop: 60, alignItems: 'center', gap: 8 },
   heroTitle: { fontSize: 28, fontWeight: '900', color: Colors.white },
   heroSub: { fontSize: 15, color: 'rgba(255,255,255,0.8)', fontWeight: '600' },
   grid: { padding: 16, flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     elevation: 2, shadowColor: Colors.black, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8,
   },
   cardIcon: { width: 52, height: 52, borderRadius: 16, alignItems: 'center', justifyContent: 'center', marginBottom: 10 },
-  cardLabel: { fontSize: 17, fontWeight: '800', color: Colors.black, marginBottom: 4 },
-  cardDesc: { fontSize: 12, color: Colors.mediumGray, lineHeight: 16 },
-  cardArrow: { position: 'absolute', top: 16, left: 12 },
+  cardLabel: { fontSize: 17, fontWeight: '800', color: Colors.black, marginBottom: 4, textAlign: 'right' },
+  cardDesc: { fontSize: 12, color: Colors.mediumGray, lineHeight: 16, textAlign: 'right' },
+  cardArrow: { position: 'absolute', top: 16, right: 12 },
 });

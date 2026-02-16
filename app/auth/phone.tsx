@@ -1,18 +1,19 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import { useAuth } from '@/context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
 import React, { useRef, useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function AuthPhoneScreen() {
@@ -61,18 +62,11 @@ export default function AuthPhoneScreen() {
   }
 
   return (
-    <>
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          title: 'התחברות',
-          headerBackTitle: 'חזרה',
-          headerTintColor: Colors.primary,
-          headerTitleStyle: { fontWeight: '800', fontSize: 18 },
-        }}
-      />
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <View style={styles.container}>
+      <AppBackButton />
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <View style={styles.content}>
+          <Text style={styles.title}>התחברות</Text>
           <Text style={styles.label}>מספר נייד</Text>
           <TextInput
             style={styles.input}
@@ -124,13 +118,14 @@ export default function AuthPhoneScreen() {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.offWhite },
   content: { flex: 1, padding: 24, justifyContent: 'center' },
+  title: { fontSize: 28, fontWeight: '900', color: Colors.primary, marginBottom: 32, textAlign: 'right' },
   label: { fontSize: 16, color: Colors.darkGray, marginBottom: 12, textAlign: 'right' },
   input: {
     backgroundColor: Colors.white,

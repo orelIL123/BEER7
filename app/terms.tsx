@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import { cityInfo } from '@/constants/MockData';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,17 +17,10 @@ export default function TermsScreen() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity style={styles.backBtn} onPress={() => router.back()} activeOpacity={0.7}>
-                    <Ionicons name="arrow-forward" size={24} color={Colors.primary} />
-                </TouchableOpacity>
-                <Text style={styles.headerTitle}>תנאי שימוש</Text>
-                <View style={styles.backBtn} />
-            </View>
-
+            <AppBackButton />
             <ScrollView
                 style={styles.scroll}
-                contentContainerStyle={styles.scrollContent}
+                contentContainerStyle={[styles.scrollContent, { paddingTop: 100 }]}
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.hero}>
@@ -100,28 +94,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.offWhite,
     },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingTop: 56,
-        paddingBottom: 12,
-        backgroundColor: Colors.white,
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.lightGray,
-    },
-    backBtn: {
-        width: 40,
-        height: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    headerTitle: {
-        fontSize: 18,
-        fontWeight: '700',
-        color: Colors.black,
-    },
     scroll: {
         flex: 1,
     },
@@ -168,6 +140,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 8,
         marginBottom: 10,
+        justifyContent: 'flex-end',
     },
     sectionTitle: {
         fontSize: 16,

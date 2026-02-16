@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import { persons } from '@/constants/MockData';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -13,31 +14,35 @@ export default function PersonDetailScreen() {
   if (!person) {
     return (
       <View style={styles.errorContainer}>
+        <AppBackButton />
         <Text style={styles.errorText}>לא נמצא</Text>
       </View>
     );
   }
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={styles.padding}>
-      <View style={styles.header}>
-        <LinearGradient colors={Colors.premiumGradient as any} style={StyleSheet.absoluteFill} />
-        <Image
-        source={person.image === 'orel' ? require('@/assets/images/orel_aharon.png') : { uri: person.image }}
-        style={styles.avatar}
-        resizeMode="cover"
-      />
-        <Text style={styles.name}>{person.name}</Text>
-        <View style={styles.roleBadge}>
-          <Text style={styles.roleText}>{person.role}</Text>
+    <View style={{ flex: 1 }}>
+      <AppBackButton dark />
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={styles.padding}>
+        <View style={styles.header}>
+          <LinearGradient colors={Colors.premiumGradient as any} style={StyleSheet.absoluteFill} />
+          <Image
+            source={person.image === 'orel' ? require('@/assets/images/orel_aharon.png') : { uri: person.image }}
+            style={styles.avatar}
+            resizeMode="cover"
+          />
+          <Text style={styles.name}>{person.name}</Text>
+          <View style={styles.roleBadge}>
+            <Text style={styles.roleText}>{person.role}</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.content}>
-        <Text style={styles.bioTitle}>אודות</Text>
-        <Text style={styles.bio}>{person.shortBio}</Text>
-      </View>
-      <View style={{ height: 40 }} />
-    </ScrollView>
+        <View style={styles.content}>
+          <Text style={styles.bioTitle}>אודות</Text>
+          <Text style={styles.bio}>{person.shortBio}</Text>
+        </View>
+        <View style={{ height: 40 }} />
+      </ScrollView>
+    </View>
   );
 }
 
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
   errorText: { fontSize: 16, color: Colors.mediumGray },
   header: {
     alignItems: 'center',
-    paddingVertical: 40,
+    paddingVertical: 50,
     paddingHorizontal: 24,
   },
   avatar: {
@@ -69,6 +74,6 @@ const styles = StyleSheet.create({
   },
   roleText: { fontSize: 14, fontWeight: '700', color: Colors.white },
   content: { padding: 24, backgroundColor: Colors.white, marginHorizontal: 20, borderRadius: 24, marginTop: -20, elevation: 4, shadowColor: Colors.black, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12 },
-  bioTitle: { fontSize: 18, fontWeight: '800', color: Colors.black, marginBottom: 12 },
-  bio: { fontSize: 16, color: Colors.darkGray, lineHeight: 26 },
+  bioTitle: { fontSize: 18, fontWeight: '800', color: Colors.black, marginBottom: 12, textAlign: 'right' },
+  bio: { fontSize: 16, color: Colors.darkGray, lineHeight: 26, textAlign: 'right' },
 });

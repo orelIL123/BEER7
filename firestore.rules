@@ -50,63 +50,8 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // ─── People / Persons ─────────────────────────────────────────────────────
-    match /persons/{id} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // ─── Businesses ───────────────────────────────────────────────────────────
-    match /businesses/{id} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // ─── Coupons ──────────────────────────────────────────────────────────────
-    match /coupons/{id} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // ─── Torah / Parasha ──────────────────────────────────────────────────────
-    match /torah/{id} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // ─── Community posts ──────────────────────────────────────────────────────
-    match /community/{id} {
-      allow read: if true;
-      allow create: if request.auth != null;
-      allow update, delete: if isAdmin();
-    }
-
-    // ─── Article submissions (user-submitted, admin moderated) ────────────────
-    match /article_submissions/{id} {
-      allow read, create: if true;
-      allow update, delete: if isAdmin();
-    }
-
-    // ─── Published articles ───────────────────────────────────────────────────
-    match /articles/{id} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // ─── Gallery ──────────────────────────────────────────────────────────────
-    match /gallery_items/{id} {
-      allow read, create: if true;
-      allow update, delete: if isAdmin();
-    }
-
-    // ─── City config (single doc: cityConfig/main) ────────────────────────────
-    match /cityConfig/{id} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // ─── Events ───────────────────────────────────────────────────────────────
-    match /events/{id} {
+    // ─── Featured Events ──────────────────────────────────────────────────────
+    match /featured_events/{id} {
       allow read: if true;
       allow write: if isAdmin();
     }
@@ -141,6 +86,5 @@ service cloud.firestore {
       allow create: if request.auth != null;
       allow update, delete: if isAdmin();
     }
-
   }
 }

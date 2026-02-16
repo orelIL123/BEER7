@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import { sponsors } from '@/constants/MockData';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,78 +18,81 @@ export default function SponsorsScreen() {
     const silverSponsors = sponsors.filter(s => s.tier === 'silver');
 
     return (
-        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-            {/* Hero */}
-            <View style={styles.hero}>
-                <Ionicons name="business" size={48} color={Colors.accent} />
-                <Text style={styles.heroTitle}>עסקים בבאר שבע</Text>
-                <Text style={styles.heroSubtitle}>גלו עסקים מקומיים ושותפים בעיר</Text>
-            </View>
+        <View style={{ flex: 1 }}>
+            <AppBackButton dark />
+            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+                {/* Hero */}
+                <View style={styles.hero}>
+                    <Ionicons name="business" size={48} color={Colors.accent} />
+                    <Text style={styles.heroTitle}>עסקים בבאר שבע</Text>
+                    <Text style={styles.heroSubtitle}>גלו עסקים מקומיים ושותפים בעיר</Text>
+                </View>
 
-            {/* Platinum */}
-            <View style={styles.tierSection}>
-                <View style={styles.tierHeader}>
-                    <Text style={styles.tierTitle}>שותפים פלטינום</Text>
-                    <View style={[styles.tierBadge, { backgroundColor: '#E5E7EB' }]}>
-                        <Text style={[styles.tierBadgeText, { color: '#374151' }]}>⭐ פלטינום</Text>
+                {/* Platinum */}
+                <View style={styles.tierSection}>
+                    <View style={styles.tierHeader}>
+                        <Text style={styles.tierTitle}>שותפים פלטינום</Text>
+                        <View style={[styles.tierBadge, { backgroundColor: '#E5E7EB' }]}>
+                            <Text style={[styles.tierBadgeText, { color: '#374151' }]}>⭐ פלטינום</Text>
+                        </View>
+                    </View>
+                    {platinumSponsors.map((sponsor) => (
+                        <TouchableOpacity key={sponsor.id} style={styles.sponsorCardLarge}>
+                            <Image source={{ uri: sponsor.logo }} style={styles.sponsorLogoLarge} />
+                            <Text style={styles.sponsorNameLarge}>{sponsor.name}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+
+                {/* Gold */}
+                <View style={styles.tierSection}>
+                    <View style={styles.tierHeader}>
+                        <Text style={styles.tierTitle}>שותפי זהב</Text>
+                        <View style={[styles.tierBadge, { backgroundColor: '#FEF3C7' }]}>
+                            <Text style={[styles.tierBadgeText, { color: '#92400E' }]}>🥇 זהב</Text>
+                        </View>
+                    </View>
+                    <View style={styles.sponsorGrid}>
+                        {goldSponsors.map((sponsor) => (
+                            <TouchableOpacity key={sponsor.id} style={styles.sponsorCard}>
+                                <Image source={{ uri: sponsor.logo }} style={styles.sponsorLogo} />
+                                <Text style={styles.sponsorName}>{sponsor.name}</Text>
+                            </TouchableOpacity>
+                        ))}
                     </View>
                 </View>
-                {platinumSponsors.map((sponsor) => (
-                    <TouchableOpacity key={sponsor.id} style={styles.sponsorCardLarge}>
-                        <Image source={{ uri: sponsor.logo }} style={styles.sponsorLogoLarge} />
-                        <Text style={styles.sponsorNameLarge}>{sponsor.name}</Text>
+
+                {/* Silver */}
+                <View style={styles.tierSection}>
+                    <View style={styles.tierHeader}>
+                        <Text style={styles.tierTitle}>שותפי כסף</Text>
+                        <View style={[styles.tierBadge, { backgroundColor: '#F3F4F6' }]}>
+                            <Text style={[styles.tierBadgeText, { color: '#6B7280' }]}>🥈 כסף</Text>
+                        </View>
+                    </View>
+                    <View style={styles.sponsorGrid}>
+                        {silverSponsors.map((sponsor) => (
+                            <TouchableOpacity key={sponsor.id} style={styles.sponsorCard}>
+                                <Image source={{ uri: sponsor.logo }} style={styles.sponsorLogo} />
+                                <Text style={styles.sponsorName}>{sponsor.name}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                </View>
+
+                {/* CTA */}
+                <View style={styles.ctaSection}>
+                    <Text style={styles.ctaTitle}>רוצה להיות שותף?</Text>
+                    <Text style={styles.ctaText}>הצטרפו לאפליקציית באר שבע ופרסמו את העסק שלכם לתושבי העיר</Text>
+                    <TouchableOpacity style={styles.ctaButton}>
+                        <Ionicons name="mail-outline" size={18} color={Colors.secondary} />
+                        <Text style={styles.ctaButtonText}>צרו קשר</Text>
                     </TouchableOpacity>
-                ))}
-            </View>
-
-            {/* Gold */}
-            <View style={styles.tierSection}>
-                <View style={styles.tierHeader}>
-                    <Text style={styles.tierTitle}>שותפי זהב</Text>
-                    <View style={[styles.tierBadge, { backgroundColor: '#FEF3C7' }]}>
-                        <Text style={[styles.tierBadgeText, { color: '#92400E' }]}>🥇 זהב</Text>
-                    </View>
                 </View>
-                <View style={styles.sponsorGrid}>
-                    {goldSponsors.map((sponsor) => (
-                        <TouchableOpacity key={sponsor.id} style={styles.sponsorCard}>
-                            <Image source={{ uri: sponsor.logo }} style={styles.sponsorLogo} />
-                            <Text style={styles.sponsorName}>{sponsor.name}</Text>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-            </View>
 
-            {/* Silver */}
-            <View style={styles.tierSection}>
-                <View style={styles.tierHeader}>
-                    <Text style={styles.tierTitle}>שותפי כסף</Text>
-                    <View style={[styles.tierBadge, { backgroundColor: '#F3F4F6' }]}>
-                        <Text style={[styles.tierBadgeText, { color: '#6B7280' }]}>🥈 כסף</Text>
-                    </View>
-                </View>
-                <View style={styles.sponsorGrid}>
-                    {silverSponsors.map((sponsor) => (
-                        <TouchableOpacity key={sponsor.id} style={styles.sponsorCard}>
-                            <Image source={{ uri: sponsor.logo }} style={styles.sponsorLogo} />
-                            <Text style={styles.sponsorName}>{sponsor.name}</Text>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-            </View>
-
-            {/* CTA */}
-            <View style={styles.ctaSection}>
-                <Text style={styles.ctaTitle}>רוצה להיות שותף?</Text>
-                <Text style={styles.ctaText}>הצטרפו לאפליקציית באר שבע ופרסמו את העסק שלכם לתושבי העיר</Text>
-                <TouchableOpacity style={styles.ctaButton}>
-                    <Ionicons name="mail-outline" size={18} color={Colors.secondary} />
-                    <Text style={styles.ctaButtonText}>צרו קשר</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={{ height: 30 }} />
-        </ScrollView>
+                <View style={{ height: 30 }} />
+            </ScrollView>
+        </View>
     );
 }
 

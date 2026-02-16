@@ -11,7 +11,7 @@
 
 ### ✅ Phase 1: Migration (Previously Done)
 - ✅ City name: Netivot → Beer Sheva
-- ✅ Hebrew text: נתיבות → באר שבע
+- ✅ Hebrew text: באר שבע → באר שבע
 - ✅ Package names and bundle IDs updated
 - ✅ Color scheme: Purple → Red
 

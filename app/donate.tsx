@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import { cityInfo } from '@/constants/MockData';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,56 +11,59 @@ export default function DonateScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.hero}>
-        <Ionicons name="mail" size={56} color={Colors.white} />
-        <Text style={styles.heroTitle}>צור קשר</Text>
-        <Text style={styles.heroSubtitle}>נשמח לשמוע מכם – לאפליקציית באר שבע</Text>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>דרכי התקשרות</Text>
-        <View style={styles.card}>
-          <TouchableOpacity
-            style={styles.row}
-            onPress={() => handleContact(cityInfo.socialMedia.facebook)}
-          >
-            <View style={[styles.iconBox, { backgroundColor: '#1877F220' }]}>
-              <Ionicons name="logo-facebook" size={24} color="#1877F2" />
-            </View>
-            <Text style={styles.rowLabel}>פייסבוק</Text>
-            <Ionicons name="chevron-back" size={20} color={Colors.mediumGray} />
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity
-            style={styles.row}
-            onPress={() => handleContact(cityInfo.socialMedia.instagram)}
-          >
-            <View style={[styles.iconBox, { backgroundColor: '#E4405F20' }]}>
-              <Ionicons name="logo-instagram" size={24} color="#E4405F" />
-            </View>
-            <Text style={styles.rowLabel}>אינסטגרם</Text>
-            <Ionicons name="chevron-back" size={20} color={Colors.mediumGray} />
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity
-            style={styles.row}
-            onPress={() => handleContact(cityInfo.website)}
-          >
-            <View style={[styles.iconBox, { backgroundColor: Colors.primary + '20' }]}>
-              <Ionicons name="globe-outline" size={24} color={Colors.primary} />
-            </View>
-            <Text style={styles.rowLabel}>אתר העיר</Text>
-            <Ionicons name="chevron-back" size={20} color={Colors.mediumGray} />
-          </TouchableOpacity>
+    <View style={{ flex: 1 }}>
+      <AppBackButton dark />
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <View style={styles.hero}>
+          <Ionicons name="mail" size={56} color={Colors.white} />
+          <Text style={styles.heroTitle}>צור קשר</Text>
+          <Text style={styles.heroSubtitle}>נשמח לשמוע מכם – לאפליקציית באר שבע</Text>
         </View>
-      </View>
 
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>אפליקציית באר שבע – כל מה שקורה בעיר</Text>
-      </View>
-      <View style={{ height: 40 }} />
-    </ScrollView>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>דרכי התקשרות</Text>
+          <View style={styles.card}>
+            <TouchableOpacity
+              style={styles.row}
+              onPress={() => handleContact(cityInfo.socialMedia.facebook)}
+            >
+              <View style={[styles.iconBox, { backgroundColor: '#1877F220' }]}>
+                <Ionicons name="logo-facebook" size={24} color="#1877F2" />
+              </View>
+              <Text style={styles.rowLabel}>פייסבוק</Text>
+              <Ionicons name="chevron-back" size={20} color={Colors.mediumGray} />
+            </TouchableOpacity>
+            <View style={styles.separator} />
+            <TouchableOpacity
+              style={styles.row}
+              onPress={() => handleContact(cityInfo.socialMedia.instagram)}
+            >
+              <View style={[styles.iconBox, { backgroundColor: '#E4405F20' }]}>
+                <Ionicons name="logo-instagram" size={24} color="#E4405F" />
+              </View>
+              <Text style={styles.rowLabel}>אינסטגרם</Text>
+              <Ionicons name="chevron-back" size={20} color={Colors.mediumGray} />
+            </TouchableOpacity>
+            <View style={styles.separator} />
+            <TouchableOpacity
+              style={styles.row}
+              onPress={() => handleContact(cityInfo.website)}
+            >
+              <View style={[styles.iconBox, { backgroundColor: Colors.primary + '20' }]}>
+                <Ionicons name="globe-outline" size={24} color={Colors.primary} />
+              </View>
+              <Text style={styles.rowLabel}>אתר העיר</Text>
+              <Ionicons name="chevron-back" size={20} color={Colors.mediumGray} />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>אפליקציית באר שבע – כל מה שקורה בעיר</Text>
+        </View>
+        <View style={{ height: 40 }} />
+      </ScrollView>
+    </View>
   );
 }
 
@@ -73,7 +77,7 @@ const styles = StyleSheet.create({
   heroTitle: { fontSize: 26, fontWeight: 'bold', color: Colors.white, marginTop: 12 },
   heroSubtitle: { fontSize: 14, color: 'rgba(255,255,255,0.85)', marginTop: 6, textAlign: 'center' },
   section: { padding: 16 },
-  sectionTitle: { fontSize: 18, fontWeight: 'bold', color: Colors.black, marginBottom: 14 },
+  sectionTitle: { fontSize: 18, fontWeight: 'bold', color: Colors.black, marginBottom: 14, textAlign: 'right' },
   card: {
     backgroundColor: Colors.white,
     borderRadius: 16,
@@ -97,7 +101,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  rowLabel: { flex: 1, fontSize: 16, fontWeight: '600', color: Colors.black },
+  rowLabel: { flex: 1, fontSize: 16, fontWeight: '600', color: Colors.black, textAlign: 'right' },
   separator: { height: 1, backgroundColor: Colors.lightGray, marginHorizontal: 16 },
   footer: { alignItems: 'center', marginTop: 24, paddingHorizontal: 20 },
   footerText: { fontSize: 13, color: Colors.mediumGray, textAlign: 'center' },

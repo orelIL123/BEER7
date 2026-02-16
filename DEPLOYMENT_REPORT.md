@@ -32,7 +32,7 @@ Your Beer Sheva city app is now **100% configured and deployed** to Firebase!
 
 ### 2. Previous Completion (Migration Phase)
 - ✅ Migrated app name: Netivot → Beer Sheva (26 files)
-- ✅ Updated Hebrew text: נתיבות → באר שבע
+- ✅ Updated Hebrew text: באר שבע → באר שבע
 - ✅ Updated package names and bundle IDs
 - ✅ Changed color scheme: Purple → Red
 - ✅ All code is ready and tested

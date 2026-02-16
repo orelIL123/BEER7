@@ -4,7 +4,7 @@
 
 ### Text Changes
 - ✅ All "Netivot" → "Beer Sheva" (26 files)
-- ✅ All "נתיבות" → "באר שבע" (26 files)
+- ✅ All "באר שבע" → "באר שבע" (26 files)
 - ✅ Package name: `beer-sheva-app`
 - ✅ Bundle IDs: `com.beer-sheva.app`
 

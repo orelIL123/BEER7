@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import type { NewsArticle } from '@/constants/Types';
 import { useAuth } from '@/context/AuthContext';
@@ -41,7 +42,7 @@ export default function SubmitArticleScreen() {
   if (!user) {
     return (
       <View style={styles.container}>
-        <Stack.Screen options={{ title: 'הגשת כתבה' }} />
+        <AppBackButton />
         <View style={styles.centered}>
           <Ionicons name="lock-closed-outline" size={64} color={Colors.mediumGray} />
           <Text style={styles.loginPrompt}>יש להתחבר כדי להגיש כתבה</Text>
@@ -82,10 +83,10 @@ export default function SubmitArticleScreen() {
   }
 
   return (
-    <>
-      <Stack.Screen options={{ title: 'הגשת כתבה', headerBackTitle: 'חזרה', headerTintColor: Colors.primary }} />
+    <View style={{ flex: 1 }}>
+      <AppBackButton />
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={80}>
-        <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
+        <ScrollView style={styles.scroll} contentContainerStyle={[styles.scrollContent, { paddingTop: 100 }]} keyboardShouldPersistTaps="handled">
           <Text style={styles.hint}>הכתבה תישלח לאישור ותפורסם לאחר שאושרה.</Text>
           <Text style={styles.label}>כותרת *</Text>
           <TextInput style={styles.input} value={title} onChangeText={setTitle} placeholder="כותרת הכתבה" placeholderTextColor={Colors.mediumGray} />
@@ -116,7 +117,7 @@ export default function SubmitArticleScreen() {
           <View style={{ height: 40 }} />
         </ScrollView>
       </KeyboardAvoidingView>
-    </>
+    </View>
   );
 }
 
@@ -124,13 +125,13 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.offWhite },
   scroll: { flex: 1 },
   scrollContent: { padding: 20, paddingBottom: 40 },
-  centered: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 },
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24, paddingTop: 100 },
   loginPrompt: { fontSize: 16, color: Colors.darkGray, marginTop: 16, textAlign: 'center' },
   authBtn: { marginTop: 20, backgroundColor: Colors.primary, paddingHorizontal: 24, paddingVertical: 12, borderRadius: 12 },
   authBtnText: { color: Colors.white, fontWeight: '700', fontSize: 16 },
-  hint: { fontSize: 14, color: Colors.mediumGray, marginBottom: 20 },
-  label: { fontSize: 14, fontWeight: '700', color: Colors.darkGray, marginBottom: 8 },
-  input: { backgroundColor: Colors.white, borderRadius: 12, padding: 14, fontSize: 16, color: Colors.black, borderWidth: 1, borderColor: Colors.lightGray, marginBottom: 16 },
+  hint: { fontSize: 14, color: Colors.mediumGray, marginBottom: 20, textAlign: 'right' },
+  label: { fontSize: 14, fontWeight: '700', color: Colors.darkGray, marginBottom: 8, textAlign: 'right' },
+  input: { backgroundColor: Colors.white, borderRadius: 12, padding: 14, fontSize: 16, color: Colors.black, borderWidth: 1, borderColor: Colors.lightGray, marginBottom: 16, textAlign: 'right' },
   textArea: { minHeight: 80, textAlignVertical: 'top' as const },
   contentArea: { minHeight: 160 },
   categoryScroll: { marginBottom: 16, marginHorizontal: -20, paddingHorizontal: 20 },

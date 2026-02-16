@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import { isAdminPhone } from '@/constants/admin';
 import { useAuth } from '@/context/AuthContext';
@@ -127,7 +128,8 @@ export default function GalleryScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.sharedSection}>
+      <AppBackButton />
+      <View style={[styles.sharedSection, { paddingTop: 80 }]}>
         <Text style={styles.sharedSectionTitle}>אתם משתפים</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.sharedScroll}>
           {sharedItems.map((item) => (

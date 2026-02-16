@@ -1,19 +1,20 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import {
-    emergencyGuidelinesUrl,
-    emergencyNumbers,
-    helpPoints,
+  emergencyGuidelinesUrl,
+  emergencyNumbers,
+  helpPoints,
 } from '@/constants/MockData';
 import type { HelpPointType } from '@/constants/Types';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
-    Linking,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Linking,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 const HELP_POINT_LABELS: Record<HelpPointType, string> = {
@@ -41,95 +42,98 @@ export default function HealthSafetyScreen() {
   };
 
   return (
-    <ScrollView
-      style={styles.container}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.padding}
-    >
-      <View style={styles.hero}>
-        <Ionicons name="shield-checkmark" size={48} color={Colors.yellowLight} />
-        <Text style={styles.heroTitle}>בריאות ובטיחות</Text>
-        <Text style={styles.heroSubtitle}>מספרי חירום, נקודות עזרה והנחיות</Text>
-      </View>
+    <View style={{ flex: 1 }}>
+      <AppBackButton dark />
+      <ScrollView
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.padding}
+      >
+        <View style={styles.hero}>
+          <Ionicons name="shield-checkmark" size={48} color={Colors.yellowLight} />
+          <Text style={styles.heroTitle}>בריאות ובטיחות</Text>
+          <Text style={styles.heroSubtitle}>מספרי חירום, נקודות עזרה והנחיות</Text>
+        </View>
 
-      {/* מספרי חירום */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>מספרי חירום</Text>
-        <View style={styles.emergencyGrid}>
-          {emergencyNumbers.map((item) => (
-            <TouchableOpacity
-              key={item.id}
-              style={styles.emergencyCard}
-              onPress={() => openPhone(item.number)}
-              activeOpacity={0.8}
-            >
-              <Ionicons name="call" size={28} color={Colors.error} />
-              <Text style={styles.emergencyName}>{item.name}</Text>
-              <Text style={styles.emergencyNumber}>{item.number}</Text>
-              {item.description ? (
-                <Text style={styles.emergencyDesc}>{item.description}</Text>
+        {/* מספרי חירום */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>מספרי חירום</Text>
+          <View style={styles.emergencyGrid}>
+            {emergencyNumbers.map((item) => (
+              <TouchableOpacity
+                key={item.id}
+                style={styles.emergencyCard}
+                onPress={() => openPhone(item.number)}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="call" size={28} color={Colors.error} />
+                <Text style={styles.emergencyName}>{item.name}</Text>
+                <Text style={styles.emergencyNumber}>{item.number}</Text>
+                {item.description ? (
+                  <Text style={styles.emergencyDesc}>{item.description}</Text>
+                ) : null}
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {/* נקודות עזרה */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>נקודות עזרה – מיקום ושירותים</Text>
+          {helpPoints.map((point) => (
+            <View key={point.id} style={styles.helpCard}>
+              <View style={styles.helpHeader}>
+                <View style={styles.helpTypeBadge}>
+                  <Ionicons
+                    name={HELP_POINT_ICONS[point.type]}
+                    size={16}
+                    color={Colors.blue}
+                  />
+                  <Text style={styles.helpTypeText}>
+                    {HELP_POINT_LABELS[point.type]}
+                  </Text>
+                </View>
+                {point.hours ? (
+                  <Text style={styles.helpHours}>{point.hours}</Text>
+                ) : null}
+              </View>
+              <Text style={styles.helpName}>{point.name}</Text>
+              <View style={styles.helpRow}>
+                <Ionicons name="location-outline" size={16} color={Colors.mediumGray} />
+                <Text style={styles.helpAddress}>{point.address}</Text>
+              </View>
+              {point.phone ? (
+                <TouchableOpacity
+                  style={styles.helpPhoneRow}
+                  onPress={() => openPhone(point.phone!)}
+                >
+                  <Ionicons name="call-outline" size={16} color={Colors.blue} />
+                  <Text style={styles.helpPhone}>{point.phone}</Text>
+                </TouchableOpacity>
               ) : null}
-            </TouchableOpacity>
+            </View>
           ))}
         </View>
-      </View>
 
-      {/* נקודות עזרה */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>נקודות עזרה – מיקום ושירותים</Text>
-        {helpPoints.map((point) => (
-          <View key={point.id} style={styles.helpCard}>
-            <View style={styles.helpHeader}>
-              <View style={styles.helpTypeBadge}>
-                <Ionicons
-                  name={HELP_POINT_ICONS[point.type]}
-                  size={16}
-                  color={Colors.blue}
-                />
-                <Text style={styles.helpTypeText}>
-                  {HELP_POINT_LABELS[point.type]}
-                </Text>
-              </View>
-              {point.hours ? (
-                <Text style={styles.helpHours}>{point.hours}</Text>
-              ) : null}
-            </View>
-            <Text style={styles.helpName}>{point.name}</Text>
-            <View style={styles.helpRow}>
-              <Ionicons name="location-outline" size={16} color={Colors.mediumGray} />
-              <Text style={styles.helpAddress}>{point.address}</Text>
-            </View>
-            {point.phone ? (
-              <TouchableOpacity
-                style={styles.helpPhoneRow}
-                onPress={() => openPhone(point.phone!)}
-              >
-                <Ionicons name="call-outline" size={16} color={Colors.blue} />
-                <Text style={styles.helpPhone}>{point.phone}</Text>
-              </TouchableOpacity>
-            ) : null}
-          </View>
-        ))}
-      </View>
+        {/* הנחיות בזמן חירום */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>הנחיות בזמן חירום</Text>
+          <Text style={styles.guidelinesIntro}>
+            מרחבים מוגנים, התנהגות בשעת חירום ומידע מעודכן – פיקוד העורף
+          </Text>
+          <TouchableOpacity
+            style={styles.guidelinesButton}
+            onPress={openGuidelines}
+            activeOpacity={0.8}
+          >
+            <Ionicons name="open-outline" size={22} color={Colors.white} />
+            <Text style={styles.guidelinesButtonText}>להנחיות פיקוד העורף</Text>
+          </TouchableOpacity>
+        </View>
 
-      {/* הנחיות בזמן חירום */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>הנחיות בזמן חירום</Text>
-        <Text style={styles.guidelinesIntro}>
-          מרחבים מוגנים, התנהגות בשעת חירום ומידע מעודכן – פיקוד העורף
-        </Text>
-        <TouchableOpacity
-          style={styles.guidelinesButton}
-          onPress={openGuidelines}
-          activeOpacity={0.8}
-        >
-          <Ionicons name="open-outline" size={22} color={Colors.white} />
-          <Text style={styles.guidelinesButtonText}>להנחיות פיקוד העורף</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={{ height: 60 }} />
-    </ScrollView>
+        <View style={{ height: 60 }} />
+      </ScrollView>
+    </View>
   );
 }
 
@@ -158,6 +162,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: Colors.black,
     marginBottom: 12,
+    textAlign: 'right',
   },
   emergencyGrid: {
     flexDirection: 'row',
@@ -188,6 +193,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: Colors.mediumGray,
     marginTop: 4,
+    textAlign: 'center',
   },
   helpCard: {
     backgroundColor: Colors.white,
@@ -217,25 +223,28 @@ const styles = StyleSheet.create({
   },
   helpTypeText: { fontSize: 12, fontWeight: '700', color: Colors.blue },
   helpHours: { fontSize: 11, color: Colors.mediumGray },
-  helpName: { fontSize: 16, fontWeight: '800', color: Colors.black },
+  helpName: { fontSize: 16, fontWeight: '800', color: Colors.black, textAlign: 'right' },
   helpRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
     marginTop: 8,
+    justifyContent: 'flex-end',
   },
-  helpAddress: { fontSize: 14, color: Colors.darkGray, flex: 1 },
+  helpAddress: { fontSize: 14, color: Colors.darkGray, flex: 1, textAlign: 'right' },
   helpPhoneRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
     marginTop: 6,
+    justifyContent: 'flex-end',
   },
   helpPhone: { fontSize: 14, fontWeight: '600', color: Colors.blue },
   guidelinesIntro: {
     fontSize: 14,
     color: Colors.darkGray,
     marginBottom: 14,
+    textAlign: 'right',
   },
   guidelinesButton: {
     flexDirection: 'row',

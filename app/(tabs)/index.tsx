@@ -13,21 +13,21 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Dimensions,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import Animated, {
-    Extrapolate,
-    interpolate,
-    interpolateColor,
-    useAnimatedScrollHandler,
-    useAnimatedStyle,
-    useSharedValue,
+  Extrapolate,
+  interpolate,
+  interpolateColor,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useHeaderActions } from './_layout';
@@ -50,8 +50,8 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { openDrawer } = useHeaderActions();
   const { articles: newsArticles } = useApprovedArticles();
-  const { persons } = usePersons();
-  const { featured } = useFeaturedEvent();
+  const persons = usePersons();
+  const featured = useFeaturedEvent();
   const coupons = useCoupons();
   const { user } = useAuth();
   const scrollY = useSharedValue(0);
@@ -181,8 +181,8 @@ export default function HomeScreen() {
           {/* Header Info */}
           <View style={[styles.headerInfo, { paddingTop: insets.top + 20 }]}>
             <View>
-              <Text style={styles.welcomeText}>אפליקציית העיר</Text>
-              <Text style={styles.clubNameText}>{cityInfo.name}</Text>
+              <Text style={styles.welcomeText}>אפליקציית</Text>
+              <Text style={styles.clubNameText}>{cityInfo.name} שלי</Text>
             </View>
           </View>
 
@@ -471,21 +471,21 @@ const styles = StyleSheet.create({
   headerInfo: {
     paddingHorizontal: 24,
     marginBottom: 30,
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
   welcomeText: {
     fontSize: 20,
     color: Colors.white,
     fontWeight: '700',
     opacity: 0.9,
-    textAlign: 'right',
+    textAlign: 'center',
   },
   clubNameText: {
     fontSize: 48,
     color: Colors.white,
     fontWeight: '900',
     letterSpacing: -1.5,
-    textAlign: 'right',
+    textAlign: 'center',
     textShadowColor: 'rgba(0,0,0,0.4)',
     textShadowOffset: { width: 0, height: 4 },
     textShadowRadius: 15,

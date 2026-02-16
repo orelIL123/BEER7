@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import { youthTeams } from '@/constants/MockData';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,73 +13,76 @@ import {
 
 export default function YouthScreen() {
     return (
-        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-            {/* Hero */}
-            <View style={styles.hero}>
-                <Ionicons name="trophy" size={48} color={Colors.white} />
-                <Text style={styles.heroTitle}>מחלקת הנוער</Text>
-                <Text style={styles.heroSubtitle}>פעילויות נוער וקהילה</Text>
-            </View>
+        <View style={{ flex: 1 }}>
+            <AppBackButton dark />
+            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+                {/* Hero */}
+                <View style={styles.hero}>
+                    <Ionicons name="trophy" size={48} color={Colors.white} />
+                    <Text style={styles.heroTitle}>מחלקת הנוער</Text>
+                    <Text style={styles.heroSubtitle}>פעילויות נוער וקהילה</Text>
+                </View>
 
-            {/* Stats */}
-            <View style={styles.statsRow}>
-                <View style={styles.youthStat}>
-                    <Text style={styles.youthStatValue}>{youthTeams.length}</Text>
-                    <Text style={styles.youthStatLabel}>קבוצות</Text>
+                {/* Stats */}
+                <View style={styles.statsRow}>
+                    <View style={styles.youthStat}>
+                        <Text style={styles.youthStatValue}>{youthTeams.length}</Text>
+                        <Text style={styles.youthStatLabel}>קבוצות</Text>
+                    </View>
+                    <View style={styles.youthStat}>
+                        <Text style={styles.youthStatValue}>
+                            {youthTeams.reduce((sum, t) => sum + t.players, 0)}
+                        </Text>
+                        <Text style={styles.youthStatLabel}>שחקנים</Text>
+                    </View>
+                    <View style={styles.youthStat}>
+                        <Text style={styles.youthStatValue}>{youthTeams.length}</Text>
+                        <Text style={styles.youthStatLabel}>מאמנים</Text>
+                    </View>
                 </View>
-                <View style={styles.youthStat}>
-                    <Text style={styles.youthStatValue}>
-                        {youthTeams.reduce((sum, t) => sum + t.players, 0)}
-                    </Text>
-                    <Text style={styles.youthStatLabel}>שחקנים</Text>
-                </View>
-                <View style={styles.youthStat}>
-                    <Text style={styles.youthStatValue}>{youthTeams.length}</Text>
-                    <Text style={styles.youthStatLabel}>מאמנים</Text>
-                </View>
-            </View>
 
-            {/* Teams */}
-            <View style={styles.teamsSection}>
-                <Text style={styles.teamsTitle}>קבוצות הנוער</Text>
-                {youthTeams.map((team) => (
-                    <TouchableOpacity key={team.id} style={styles.teamCard}>
-                        <View style={styles.teamHeader}>
-                            <View style={styles.ageGroupBadge}>
-                                <Text style={styles.ageGroupText}>{team.ageGroup}</Text>
+                {/* Teams */}
+                <View style={styles.teamsSection}>
+                    <Text style={styles.teamsTitle}>קבוצות הנוער</Text>
+                    {youthTeams.map((team) => (
+                        <TouchableOpacity key={team.id} style={styles.teamCard}>
+                            <View style={styles.teamHeader}>
+                                <View style={styles.ageGroupBadge}>
+                                    <Text style={styles.ageGroupText}>{team.ageGroup}</Text>
+                                </View>
+                                <Text style={styles.teamName}>{team.name}</Text>
                             </View>
-                            <Text style={styles.teamName}>{team.name}</Text>
-                        </View>
-                        <View style={styles.teamDetails}>
-                            <View style={styles.teamDetail}>
-                                <Ionicons name="person-outline" size={16} color={Colors.mediumGray} />
-                                <Text style={styles.teamDetailText}>מאמן: {team.coach}</Text>
+                            <View style={styles.teamDetails}>
+                                <View style={styles.teamDetail}>
+                                    <Ionicons name="person-outline" size={16} color={Colors.mediumGray} />
+                                    <Text style={styles.teamDetailText}>מאמן: {team.coach}</Text>
+                                </View>
+                                <View style={styles.teamDetail}>
+                                    <Ionicons name="trophy-outline" size={16} color={Colors.mediumGray} />
+                                    <Text style={styles.teamDetailText}>{team.league}</Text>
+                                </View>
+                                <View style={styles.teamDetail}>
+                                    <Ionicons name="people-outline" size={16} color={Colors.mediumGray} />
+                                    <Text style={styles.teamDetailText}>{team.players} שחקנים</Text>
+                                </View>
                             </View>
-                            <View style={styles.teamDetail}>
-                                <Ionicons name="trophy-outline" size={16} color={Colors.mediumGray} />
-                                <Text style={styles.teamDetailText}>{team.league}</Text>
-                            </View>
-                            <View style={styles.teamDetail}>
-                                <Ionicons name="people-outline" size={16} color={Colors.mediumGray} />
-                                <Text style={styles.teamDetailText}>{team.players} שחקנים</Text>
-                            </View>
-                        </View>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+
+                {/* CTA */}
+                <View style={styles.ctaSection}>
+                    <Text style={styles.ctaTitle}>רוצה להצטרף?</Text>
+                    <Text style={styles.ctaText}>פעילויות נוער בבאר שבע</Text>
+                    <TouchableOpacity style={styles.ctaButton} activeOpacity={0.8}>
+                        <Text style={styles.ctaButtonText}>צור קשר</Text>
+                        <Ionicons name="call-outline" size={18} color={Colors.white} />
                     </TouchableOpacity>
-                ))}
-            </View>
+                </View>
 
-            {/* CTA */}
-            <View style={styles.ctaSection}>
-                <Text style={styles.ctaTitle}>רוצה להצטרף?</Text>
-                <Text style={styles.ctaText}>פעילויות נוער בבאר שבע</Text>
-                <TouchableOpacity style={styles.ctaButton}>
-                    <Text style={styles.ctaButtonText}>צור קשר</Text>
-                    <Ionicons name="call-outline" size={18} color={Colors.white} />
-                </TouchableOpacity>
-            </View>
-
-            <View style={{ height: 30 }} />
-        </ScrollView>
+                <View style={{ height: 30 }} />
+            </ScrollView>
+        </View>
     );
 }
 
@@ -139,6 +143,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: Colors.black,
         marginBottom: 16,
+        textAlign: 'right',
     },
     teamCard: {
         backgroundColor: Colors.white,
@@ -156,6 +161,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 12,
         gap: 10,
+        justifyContent: 'flex-end',
     },
     ageGroupBadge: {
         backgroundColor: Colors.primary,
@@ -180,6 +186,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
+        justifyContent: 'flex-end',
     },
     teamDetailText: {
         fontSize: 14,
@@ -206,7 +213,7 @@ const styles = StyleSheet.create({
     },
     ctaButton: {
         flexDirection: 'row',
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.primary,
         paddingHorizontal: 24,
         paddingVertical: 12,
         borderRadius: 12,
@@ -216,6 +223,6 @@ const styles = StyleSheet.create({
     ctaButtonText: {
         fontSize: 16,
         fontWeight: '600',
-        color: Colors.secondary,
+        color: Colors.white,
     },
 });

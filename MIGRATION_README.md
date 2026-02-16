@@ -18,7 +18,7 @@ All references have been updated throughout the codebase:
 | Original | Updated | Files Affected |
 |----------|---------|----------------|
 | "Netivot" | "Beer Sheva" | 26 files |
-| "נתיבות" | "באר שבע" | 26 files |
+| "באר שבע" | "באר שבע" | 26 files |
 | "netivot-app" | "beer-sheva-app" | package.json |
 | "com.netivot.app" | "com.beer-sheva.app" | app.json (bundle IDs) |
 | "netivot" (slug) | "beer-sheva" | app.json |
@@ -386,7 +386,7 @@ Use this checklist to track your migration progress:
 - [x] Extract and analyze original project
 - [x] Copy to BEER_SHEVA folder
 - [x] Replace all "Netivot" text with "Beer Sheva"
-- [x] Replace all "נתיבות" text with "באר שבע"
+- [x] Replace all "באר שבע" text with "באר שבע"
 - [x] Update color scheme from purple to red
 - [x] Update package and bundle identifiers
 - [ ] Replace all logo/image files (0/13 completed)

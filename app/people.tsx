@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import { persons } from '@/constants/MockData';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,36 +10,39 @@ export default function PeopleScreen() {
   const router = useRouter();
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={styles.padding}>
-      <View style={styles.hero}>
-        <Ionicons name="people" size={48} color={Colors.accent} />
-        <Text style={styles.heroTitle}>אישים בבאר שבע</Text>
-        <Text style={styles.heroSubtitle}>אנשי העיר והקהילה</Text>
-      </View>
-      <View style={styles.list}>
-        {persons.map((person) => (
-          <TouchableOpacity
-            key={person.id}
-            style={styles.card}
-            onPress={() => router.push(`/person/${person.id}` as any)}
-            activeOpacity={0.8}
-          >
-            <Image
-              source={person.image === 'orel' ? require('@/assets/images/orel_aharon.png') : { uri: person.image }}
-              style={styles.avatar}
-              resizeMode="cover"
-            />
-            <View style={styles.info}>
-              <Text style={styles.name}>{person.name}</Text>
-              <Text style={styles.role}>{person.role}</Text>
-              <Text style={styles.bio} numberOfLines={2}>{person.shortBio}</Text>
-            </View>
-            <Ionicons name="chevron-back" size={22} color={Colors.mediumGray} />
-          </TouchableOpacity>
-        ))}
-      </View>
-      <View style={{ height: 40 }} />
-    </ScrollView>
+    <View style={{ flex: 1 }}>
+      <AppBackButton dark />
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={styles.padding}>
+        <View style={styles.hero}>
+          <Ionicons name="people" size={48} color={Colors.accent} />
+          <Text style={styles.heroTitle}>אישים בבאר שבע</Text>
+          <Text style={styles.heroSubtitle}>אנשי העיר והקהילה</Text>
+        </View>
+        <View style={styles.list}>
+          {persons.map((person) => (
+            <TouchableOpacity
+              key={person.id}
+              style={styles.card}
+              onPress={() => router.push(`/person/${person.id}` as any)}
+              activeOpacity={0.8}
+            >
+              <Image
+                source={person.image === 'orel' ? require('@/assets/images/orel_aharon.png') : { uri: person.image }}
+                style={styles.avatar}
+                resizeMode="cover"
+              />
+              <View style={styles.info}>
+                <Text style={styles.name}>{person.name}</Text>
+                <Text style={styles.role}>{person.role}</Text>
+                <Text style={styles.bio} numberOfLines={2}>{person.shortBio}</Text>
+              </View>
+              <Ionicons name="chevron-back" size={22} color={Colors.mediumGray} />
+            </TouchableOpacity>
+          ))}
+        </View>
+        <View style={{ height: 40 }} />
+      </ScrollView>
+    </View>
   );
 }
 

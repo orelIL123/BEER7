@@ -10,7 +10,7 @@
 
 ### ✅ Phase 1: Migration (Previously Completed)
 - [x] City name: Netivot → Beer Sheva (26 files)
-- [x] Hebrew text: נתיבות → באר שבע
+- [x] Hebrew text: באר שבע → באר שבע
 - [x] Package name: com.netivot.app → com.beer7.app
 - [x] Color scheme: Purple → Red
 - [x] All code changes verified

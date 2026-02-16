@@ -20,9 +20,9 @@ import {
 
 // ========== CITY INFO ==========
 export const cityInfo = {
-  name: 'נתיבות',
-  fullName: 'אפליקציית נתיבות – העיר',
-  description: 'כל מה שקורה בעיר נתיבות: עסקים, כתבות, אירועים ואישים',
+  name: 'באר שבע',
+  fullName: 'אפליקציית באר שבע – העיר',
+  description: 'כל מה שקורה בעיר באר שבע: עסקים, כתבות, אירועים ואישים',
   website: 'https://www.netivot.muni.il',
   socialMedia: {
     facebook: 'https://facebook.com/netivot',
@@ -36,14 +36,14 @@ export const emergencyNumbers: EmergencyNumber[] = [
   { id: '1', name: 'משטרה', number: '100', description: 'חירום משטרת ישראל' },
   { id: '2', name: 'מד״א', number: '101', description: 'מגן דוד אדום' },
   { id: '3', name: 'כיבוי אש', number: '102', description: 'שירותי כבאות והצלה' },
-  { id: '4', name: 'חירום עירייה', number: '08-9921212', description: 'מרכזיית עיריית נתיבות' },
+  { id: '4', name: 'חירום עירייה', number: '08-9921212', description: 'מרכזיית עיריית באר שבע' },
 ];
 
 export const helpPoints: HelpPoint[] = [
-  { id: '1', type: 'mda', name: 'תחנת מד״א נתיבות', address: 'רחוב הרצל 50', phone: '08-9923344', hours: '24/7' },
+  { id: '1', type: 'mda', name: 'תחנת מד״א באר שבע', address: 'רחוב הרצל 50', phone: '08-9923344', hours: '24/7' },
   { id: '2', type: 'clinic', name: 'טיפת חלב', address: 'רחוב ויצמן 12', phone: '08-9912345', hours: 'א\'-ה\' 08:00-15:00' },
   { id: '3', type: 'clinic', name: 'מרפאת כללית', address: 'שדרות העצמאות 8', phone: '08-9956789', hours: 'א\'-ה\' 08:00-19:00' },
-  { id: '4', type: 'pharmacy', name: 'סופר פארם נתיבות', address: 'רחוב הרצל 12', phone: '08-1234567', hours: 'א\'-ה\' 08:00-21:00, ו\' 08:00-14:00' },
+  { id: '4', type: 'pharmacy', name: 'סופר פארם באר שבע', address: 'רחוב הרצל 12', phone: '08-1234567', hours: 'א\'-ה\' 08:00-21:00, ו\' 08:00-14:00' },
   { id: '5', type: 'pharmacy', name: 'בית מרקחת הרצל', address: 'רחוב הרצל 22', phone: '08-9876543', hours: '24/7' },
 ];
 
@@ -54,8 +54,8 @@ export const emergencyGuidelinesUrl = 'https://www.oref.org.il/12481-he/Pakar.as
 export const binoArticle: NewsArticle = {
   id: 'bino',
   title: 'הפיתה של בינו – קיוסק עם נשמה גדולה',
-    summary: 'עם נשמה גדולה 💙 דביר עמר והסיפור מאחורי "בינו" ברחוב הארזים',
-    content: `מה הייתם עושים בגיל 22 אחרי ארבע שנים בישיבה וקרבי בכפיר?
+  summary: 'עם נשמה גדולה 💙 דביר עמר והסיפור מאחורי "בינו" ברחוב הארזים',
+  content: `מה הייתם עושים בגיל 22 אחרי ארבע שנים בישיבה וקרבי בכפיר?
 
 רובנו היינו רוצים לנוח, לטוס, לשכוח קצת מהכל.
 
@@ -78,9 +78,9 @@ export const binoArticle: NewsArticle = {
 כשר. טעים. עם נשמה.
 
 — עם דביר עמר.`,
-    image: 'bino',
-    date: '2026-02-12',
-    category: 'business',
+  image: 'bino',
+  date: '2026-02-12',
+  category: 'business',
   businessId: 'bino',
 };
 
@@ -104,7 +104,7 @@ export const sponsors: Sponsor[] = businesses.map((b) => ({
 export const persons: Person[] = [
   { id: '1', name: 'אוראל אהרון', role: 'יזם', image: 'orel', shortBio: 'מפתח אפליקציות ומערכות מידע.' },
   { id: '2', name: 'שרה כהן', role: 'מנהלת המרכז הקהילתי', image: 'https://i.pravatar.cc/300?img=5', shortBio: 'מנהלת המרכז הקהילתי, מובילה תוכניות תרבות ופנאי.' },
-  { id: '3', name: 'משה אברהם', role: 'פעיל קהילה', image: 'https://i.pravatar.cc/300?img=12', shortBio: 'פעיל קהילתי ותיק, מייסד עמותת "יחד בנתיבות".' },
+  { id: '3', name: 'משה אברהם', role: 'פעיל קהילה', image: 'https://i.pravatar.cc/300?img=12', shortBio: 'פעיל קהילתי ותיק, מייסד עמותת "יחד בבאר שבע".' },
   { id: '4', name: 'רחל מזרחי', role: 'מנהלת ספריית העיר', image: 'https://i.pravatar.cc/300?img=9', shortBio: 'מנהלת ספריית העיר, מקדמת קריאה ותרבות.' },
   { id: '5', name: 'יוסי דהן', role: 'בעל עסק מקומי', image: 'https://i.pravatar.cc/300?img=15', shortBio: 'בעל "מסעדת הנגב", תורם לקהילה ולנוער.' },
 ];
@@ -123,7 +123,7 @@ export const events: Event[] = [
 export const featuredEvent: FeaturedEvent | null = {
   id: 'fe1',
   kind: 'business_opening',
-  title: 'אלקטרו נתיבות – פתיחה השבוע',
+  title: 'אלקטרו באר שבע – פתיחה השבוע',
   subtitle: 'חנות אלקטרוניקה ומוצרי חשמל במרכז העיר',
   date: '2026-02-15',
   time: '10:00',
@@ -141,8 +141,8 @@ export const communityPosts: CommunityPost[] = [];
 // בעתיד: רק למשתמשים רשומים (membersOnly). כרגע פתוח לכולם עד חיבור בקאנד.
 export const coupons: Coupon[] = [
   { id: '1', businessId: '4', businessName: 'מסעדת הנגב', title: '20% הנחה לארוחה', description: 'הנחה על כל מנה שנייה', validUntil: '2026-03-01', code: 'NETIVOT20', maxRedemptions: 100, redemptionCount: 42, membersOnly: false },
-  { id: '2', businessId: '5', businessName: 'אלקטרו נתיבות', title: '10% על מוצרי חשמל', description: 'לקנייה מעל 500 ₪', validUntil: '2026-02-28', code: 'ELEC10', maxRedemptions: 50, redemptionCount: 50, membersOnly: false },
-  { id: '3', businessId: '1', businessName: 'סופר פארם נתיבות', title: 'מתנה בקנייה', description: 'מתנה בקנייה מעל 100 ₪', validUntil: '2026-02-20', maxRedemptions: 200, redemptionCount: 87, membersOnly: true },
+  { id: '2', businessId: '5', businessName: 'אלקטרו באר שבע', title: '10% על מוצרי חשמל', description: 'לקנייה מעל 500 ₪', validUntil: '2026-02-28', code: 'ELEC10', maxRedemptions: 50, redemptionCount: 50, membersOnly: false },
+  { id: '3', businessId: '1', businessName: 'סופר פארם באר שבע', title: 'מתנה בקנייה', description: 'מתנה בקנייה מעל 100 ₪', validUntil: '2026-02-20', maxRedemptions: 200, redemptionCount: 87, membersOnly: true },
 ];
 
 // ========== תוכן תורני (פרשת השבוע + דבר תורה) ==========
@@ -187,7 +187,7 @@ export const sharedGalleryItems: GalleryItem[] = [];
 export const clubInfo = {
   name: cityInfo.name,
   fullName: cityInfo.fullName,
-  stadium: 'עיריית נתיבות',
+  stadium: 'עיריית באר שבע',
   founded: '',
   coach: '',
   president: '',

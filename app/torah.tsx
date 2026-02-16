@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import { dvarTorahList, parashaShavua } from '@/constants/MockData';
 import { DvarTorah } from '@/constants/Types';
@@ -18,63 +19,66 @@ export default function TorahScreen() {
   });
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={styles.padding}>
-      <View style={styles.hero}>
-        <Ionicons name="book" size={48} color={Colors.white} />
-        <Text style={styles.heroTitle}>תוכן תורני</Text>
-        <Text style={styles.heroSubtitle}>פרשת השבוע ודבר תורה</Text>
-      </View>
+    <View style={{ flex: 1 }}>
+      <AppBackButton dark />
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={styles.padding}>
+        <View style={styles.hero}>
+          <Ionicons name="book" size={48} color={Colors.white} />
+          <Text style={styles.heroTitle}>תוכן תורני</Text>
+          <Text style={styles.heroSubtitle}>פרשת השבוע ודבר תורה</Text>
+        </View>
 
-      {/* פרשת השבוע */}
-      <View style={styles.section}>
-        <View style={styles.sectionHeader}>
-          <Ionicons name="star" size={22} color={Colors.accent} />
-          <Text style={styles.sectionTitle}>פרשת השבוע</Text>
-        </View>
-        <View style={styles.parashaCard}>
-          <Text style={styles.parashaName}>{parashaShavua.name}</Text>
-          {parashaShavua.weekLabel ? (
-            <Text style={styles.parashaWeek}>{parashaShavua.weekLabel}</Text>
-          ) : null}
-          {parashaShavua.summary ? (
-            <Text style={styles.parashaSummary}>{parashaShavua.summary}</Text>
-          ) : null}
-        </View>
-        <Text style={styles.adminNote}>ניתן לעדכן את פרשת השבוע ממערכת הניהול (אדמין).</Text>
-      </View>
-
-      {/* דבר תורה */}
-      <View style={styles.section}>
-        <View style={styles.sectionHeader}>
-          <Ionicons name="document-text" size={22} color={Colors.primary} />
-          <Text style={styles.sectionTitle}>דבר תורה</Text>
-        </View>
-        <View style={styles.filterRow}>
-          {(['all', 'daily', 'weekly'] as const).map((key) => (
-            <TouchableOpacity
-              key={key}
-              style={[styles.filterChip, dvarFilter === key && styles.filterChipActive]}
-              onPress={() => setDvarFilter(key)}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.filterChipText, dvarFilter === key && styles.filterChipTextActive]}>
-                {key === 'all' ? 'הכל' : key === 'daily' ? 'יומי' : 'שבועי'}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        {filteredDvarim.length === 0 ? (
-          <View style={styles.emptyCard}>
-            <Text style={styles.emptyText}>אין כרגע דבר תורה להצגה בקטגוריה זו.</Text>
+        {/* פרשת השבוע */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="star" size={22} color={Colors.accent} />
+            <Text style={styles.sectionTitle}>פרשת השבוע</Text>
           </View>
-        ) : (
-          filteredDvarim.map((d) => <DvarCard key={d.id} dvar={d} />)
-        )}
-        <Text style={styles.adminNote}>דברי התורה מתעדכנים על ידי האדמין (יומי/שבועי).</Text>
-      </View>
+          <View style={styles.parashaCard}>
+            <Text style={styles.parashaName}>{parashaShavua.name}</Text>
+            {parashaShavua.weekLabel ? (
+              <Text style={styles.parashaWeek}>{parashaShavua.weekLabel}</Text>
+            ) : null}
+            {parashaShavua.summary ? (
+              <Text style={styles.parashaSummary}>{parashaShavua.summary}</Text>
+            ) : null}
+          </View>
+          <Text style={styles.adminNote}>ניתן לעדכן את פרשת השבוע ממערכת הניהול (אדמין).</Text>
+        </View>
 
-      <View style={{ height: 40 }} />
-    </ScrollView>
+        {/* דבר תורה */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="document-text" size={22} color={Colors.primary} />
+            <Text style={styles.sectionTitle}>דבר תורה</Text>
+          </View>
+          <View style={styles.filterRow}>
+            {(['all', 'daily', 'weekly'] as const).map((key) => (
+              <TouchableOpacity
+                key={key}
+                style={[styles.filterChip, dvarFilter === key && styles.filterChipActive]}
+                onPress={() => setDvarFilter(key)}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.filterChipText, dvarFilter === key && styles.filterChipTextActive]}>
+                  {key === 'all' ? 'הכל' : key === 'daily' ? 'יומי' : 'שבועי'}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          {filteredDvarim.length === 0 ? (
+            <View style={styles.emptyCard}>
+              <Text style={styles.emptyText}>אין כרגע דבר תורה להצגה בקטגוריה זו.</Text>
+            </View>
+          ) : (
+            filteredDvarim.map((d) => <DvarCard key={d.id} dvar={d} />)
+          )}
+          <Text style={styles.adminNote}>דברי התורה מתעדכנים על ידי האדמין (יומי/שבועי).</Text>
+        </View>
+
+        <View style={{ height: 40 }} />
+      </ScrollView>
+    </View>
   );
 }
 

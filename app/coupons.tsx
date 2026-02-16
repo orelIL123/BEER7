@@ -1,3 +1,4 @@
+import AppBackButton from '@/components/AppBackButton';
 import Colors from '@/constants/Colors';
 import { coupons } from '@/constants/MockData';
 import type { Coupon } from '@/constants/Types';
@@ -15,62 +16,65 @@ function getRemainingText(c: Coupon): string | null {
 
 export default function CouponsScreen() {
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={styles.padding}>
-      <View style={styles.hero}>
-        <Ionicons name="pricetag" size={48} color={Colors.yellowLight} />
-        <Text style={styles.heroTitle}>קופונים ומבצעים</Text>
-        <Text style={styles.heroSubtitle}>הנחות אצל עסקי באר שבע – הגע לחנות והצג את הקופון</Text>
-      </View>
-      <View style={styles.inStoreNote}>
-        <Ionicons name="storefront-outline" size={20} color={Colors.blue} />
-        <Text style={styles.inStoreNoteText}>הגע פיזית לחנות, הצג את הקופון – בעל העסק יסרוק/יאשר ויבדוק אם נותר מקום. בהתאם יקבלת את ההנחה.</Text>
-      </View>
-      <View style={styles.list}>
-        {coupons.length === 0 ? (
-          <View style={styles.empty}>
-            <Ionicons name="pricetag-outline" size={48} color={Colors.mediumGray} />
-            <Text style={styles.emptyText}>אין קופונים כרגע</Text>
-          </View>
-        ) : (
-          coupons.map((c) => {
-            const remaining = getRemainingText(c);
-            const isExhausted = remaining === 'הקופון אזל';
-            return (
-              <View key={c.id} style={[styles.card, isExhausted && styles.cardExhausted]}>
-                <View style={styles.cardHeader}>
-                  <Text style={styles.businessName}>{c.businessName}</Text>
-                  <View style={styles.badgesRow}>
-                    {c.membersOnly && (
-                      <View style={styles.membersBadge}>
-                        <Text style={styles.membersBadgeText}>לחברי אפליקציה</Text>
+    <View style={{ flex: 1 }}>
+      <AppBackButton dark />
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={styles.padding}>
+        <View style={styles.hero}>
+          <Ionicons name="pricetag" size={48} color={Colors.yellowLight} />
+          <Text style={styles.heroTitle}>קופונים ומבצעים</Text>
+          <Text style={styles.heroSubtitle}>הנחות אצל עסקי באר שבע – הגע לחנות והצג את הקופון</Text>
+        </View>
+        <View style={styles.inStoreNote}>
+          <Ionicons name="storefront-outline" size={20} color={Colors.blue} />
+          <Text style={styles.inStoreNoteText}>הגע פיזית לחנות, הצג את הקופון – בעל העסק יסרוק/יאשר ויבדוק אם נותר מקום. בהתאם יקבלת את ההנחה.</Text>
+        </View>
+        <View style={styles.list}>
+          {coupons.length === 0 ? (
+            <View style={styles.empty}>
+              <Ionicons name="pricetag-outline" size={48} color={Colors.mediumGray} />
+              <Text style={styles.emptyText}>אין קופונים כרגע</Text>
+            </View>
+          ) : (
+            coupons.map((c) => {
+              const remaining = getRemainingText(c);
+              const isExhausted = remaining === 'הקופון אזל';
+              return (
+                <View key={c.id} style={[styles.card, isExhausted && styles.cardExhausted]}>
+                  <View style={styles.cardHeader}>
+                    <Text style={styles.businessName}>{c.businessName}</Text>
+                    <View style={styles.badgesRow}>
+                      {c.membersOnly && (
+                        <View style={styles.membersBadge}>
+                          <Text style={styles.membersBadgeText}>לחברי אפליקציה</Text>
+                        </View>
+                      )}
+                      <View style={[styles.validBadge, isExhausted && styles.validBadgeExhausted]}>
+                        <Text style={styles.validText}>תקף עד {c.validUntil}</Text>
                       </View>
-                    )}
-                    <View style={[styles.validBadge, isExhausted && styles.validBadgeExhausted]}>
-                      <Text style={styles.validText}>תקף עד {c.validUntil}</Text>
                     </View>
                   </View>
+                  <Text style={styles.title}>{c.title}</Text>
+                  <Text style={styles.description}>{c.description}</Text>
+                  {remaining && (
+                    <Text style={[styles.remainingText, isExhausted && styles.remainingTextExhausted]}>
+                      {remaining}
+                    </Text>
+                  )}
+                  {c.code ? (
+                    <View style={styles.codeBox}>
+                      <Text style={styles.codeLabel}>קוד להצגה בחנות:</Text>
+                      <Text style={styles.codeValue}>{c.code}</Text>
+                    </View>
+                  ) : null}
+                  <Text style={styles.scanHint}>הצג את הקופון בחנות – העסק יסרוק לאישור</Text>
                 </View>
-                <Text style={styles.title}>{c.title}</Text>
-                <Text style={styles.description}>{c.description}</Text>
-                {remaining && (
-                  <Text style={[styles.remainingText, isExhausted && styles.remainingTextExhausted]}>
-                    {remaining}
-                  </Text>
-                )}
-                {c.code ? (
-                  <View style={styles.codeBox}>
-                    <Text style={styles.codeLabel}>קוד להצגה בחנות:</Text>
-                    <Text style={styles.codeValue}>{c.code}</Text>
-                  </View>
-                ) : null}
-                <Text style={styles.scanHint}>הצג את הקופון בחנות – העסק יסרוק לאישור</Text>
-              </View>
-            );
-          })
-        )}
-      </View>
-      <View style={{ height: 40 }} />
-    </ScrollView>
+              );
+            })
+          )}
+        </View>
+        <View style={{ height: 40 }} />
+      </ScrollView>
+    </View>
   );
 }
 
