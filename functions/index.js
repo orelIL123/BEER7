@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const https = require('https');
 
 admin.initializeApp();
 
@@ -359,5 +360,216 @@ exports.syncUsersWithAuth = functions
     } catch (error) {
       console.error(`Fatal error during sync: ${error.message}`);
       throw error;
+    }
+  });
+
+/**
+ * Helper function: Send SMS via sms4free API
+ */
+async function sendSMS(recipient, message) {
+  return new Promise((resolve, reject) => {
+    const data = JSON.stringify({
+      key: 'mgfwkoRBI',
+      user: '0523985505',
+      pass: '73960779',
+      sender: 'אפליקציית באר שבע',
+      recipient: recipient,
+      msg: message,
+    });
+
+    const options = {
+      hostname: 'api.sms4free.co.il',
+      path: '/ApiSMS/v2/SendSMS',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(data),
+      },
+    };
+
+    const req = https.request(options, (res) => {
+      let body = '';
+      res.on('data', (chunk) => { body += chunk; });
+      res.on('end', () => {
+        console.log(`SMS API Response: ${body}`);
+        if (res.statusCode === 200 || res.statusCode === 201) {
+          resolve({ success: true, response: body });
+        } else {
+          reject(new Error(`SMS API returned status ${res.statusCode}: ${body}`));
+        }
+      });
+    });
+
+    req.on('error', (error) => {
+      console.error(`SMS API Error: ${error.message}`);
+      reject(error);
+    });
+
+    req.write(data);
+    req.end();
+  });
+}
+
+/**
+ * Cloud Function: שליחת קוד OTP באמצעות SMS
+ */
+exports.sendOtp = functions
+  .region('us-central1')
+  .https.onCall(async (data, context) => {
+    const { phone } = data;
+
+    if (!phone) {
+      throw new functions.https.HttpsError(
+        'invalid-argument',
+        'Phone number is required'
+      );
+    }
+
+    // Normalize phone number
+    const normalizedPhone = phone.replace(/[^\d]/g, '');
+    
+    try {
+      // Check for rate limiting - max 3 attempts per 10 minutes
+      const otpRef = db.collection('otpCodes').doc(normalizedPhone);
+      const otpDoc = await otpRef.get();
+      
+      if (otpDoc.exists) {
+        const data = otpDoc.data();
+        const now = admin.firestore.Timestamp.now();
+        const timeSinceFirst = now.toMillis() - data.firstAttempt.toMillis();
+        
+        // If less than 10 minutes since first attempt and already 3 attempts
+        if (timeSinceFirst < 10 * 60 * 1000 && data.attempts >= 3) {
+          throw new functions.https.HttpsError(
+            'resource-exhausted',
+            'Too many attempts. Please try again later.'
+          );
+        }
+        
+        // Reset if more than 10 minutes passed
+        if (timeSinceFirst >= 10 * 60 * 1000) {
+          await otpRef.delete();
+        }
+      }
+
+      // Generate 6-digit OTP
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      
+      // Send SMS
+      const message = `קוד האימות שלך באפליקציית באר שבע: ${otp}`;
+      await sendSMS(normalizedPhone, message);
+
+      // Store OTP in Firestore
+      const expiresAt = admin.firestore.Timestamp.fromMillis(
+        Date.now() + 10 * 60 * 1000 // 10 minutes
+      );
+
+      const existingDoc = await otpRef.get();
+      if (existingDoc.exists) {
+        const data = existingDoc.data();
+        await otpRef.update({
+          code: otp,
+          expiresAt: expiresAt,
+          attempts: data.attempts + 1,
+          updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+      } else {
+        await otpRef.set({
+          phone: normalizedPhone,
+          code: otp,
+          expiresAt: expiresAt,
+          verified: false,
+          attempts: 1,
+          firstAttempt: admin.firestore.FieldValue.serverTimestamp(),
+          createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+      }
+
+      console.log(`OTP sent to ${normalizedPhone}`);
+      
+      return {
+        success: true,
+        message: 'OTP sent successfully',
+      };
+    } catch (error) {
+      console.error(`Error sending OTP: ${error.message}`);
+      throw new functions.https.HttpsError(
+        'internal',
+        `Failed to send OTP: ${error.message}`
+      );
+    }
+  });
+
+/**
+ * Cloud Function: אימות קוד OTP
+ */
+exports.verifyOtp = functions
+  .region('us-central1')
+  .https.onCall(async (data, context) => {
+    const { phone, code } = data;
+
+    if (!phone || !code) {
+      throw new functions.https.HttpsError(
+        'invalid-argument',
+        'Phone number and code are required'
+      );
+    }
+
+    // Normalize phone number
+    const normalizedPhone = phone.replace(/[^\d]/g, '');
+    
+    try {
+      const otpRef = db.collection('otpCodes').doc(normalizedPhone);
+      const otpDoc = await otpRef.get();
+
+      if (!otpDoc.exists) {
+        throw new functions.https.HttpsError(
+          'not-found',
+          'No OTP found for this phone number'
+        );
+      }
+
+      const otpData = otpDoc.data();
+      const now = admin.firestore.Timestamp.now();
+
+      // Check if OTP has expired
+      if (now.toMillis() > otpData.expiresAt.toMillis()) {
+        await otpRef.delete();
+        throw new functions.https.HttpsError(
+          'deadline-exceeded',
+          'OTP has expired'
+        );
+      }
+
+      // Check if OTP matches
+      if (otpData.code !== code) {
+        throw new functions.https.HttpsError(
+          'invalid-argument',
+          'Invalid OTP code'
+        );
+      }
+
+      // Mark as verified
+      await otpRef.update({
+        verified: true,
+        verifiedAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+
+      console.log(`OTP verified for ${normalizedPhone}`);
+
+      return {
+        success: true,
+        message: 'OTP verified successfully',
+        phone: normalizedPhone,
+      };
+    } catch (error) {
+      console.error(`Error verifying OTP: ${error.message}`);
+      if (error instanceof functions.https.HttpsError) {
+        throw error;
+      }
+      throw new functions.https.HttpsError(
+        'internal',
+        `Failed to verify OTP: ${error.message}`
+      );
     }
   });
