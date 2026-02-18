@@ -3,7 +3,10 @@
  * After running this, the admin can log in with phone 0523985505 and password 112233.
  *
  * Usage: npm run firebase:admin
- * (Requires service account key in root as beer-sheva-service-account.json)
+ *
+ * Auth (one of):
+ * - Service account JSON: beer-sheva-service-account.json in project root, or GOOGLE_APPLICATION_CREDENTIALS
+ * - Or: firebase login then run this (uses Application Default Credentials)
  */
 
 const admin = require('firebase-admin');
@@ -15,6 +18,21 @@ const ADMIN_PHONE = '+972523985505'; // Normalized
 const ADMIN_PASSWORD = '112233';
 
 const projectRoot = path.join(__dirname, '..');
+function getProjectId() {
+    if (process.env.GCLOUD_PROJECT || process.env.GOOGLE_CLOUD_PROJECT) {
+        return process.env.GCLOUD_PROJECT || process.env.GOOGLE_CLOUD_PROJECT;
+    }
+    try {
+        const gs = path.join(projectRoot, 'google-services.json');
+        if (fs.existsSync(gs)) {
+            const data = JSON.parse(fs.readFileSync(gs, 'utf8'));
+            const id = data?.project_id || data?.client?.[0]?.client_info?.project_id;
+            if (id) return id;
+        }
+    } catch (_) {}
+    return 'beer7-b898d';
+}
+const FIREBASE_PROJECT_ID = getProjectId();
 const possiblePaths = [
     path.join(projectRoot, 'beer-sheva-service-account.json'),
     path.join(projectRoot, 'beer-sheva-83442-firebase-adminsdk-fbsvc-d0802d28dc.json'),
@@ -34,15 +52,18 @@ function loadServiceAccountKey() {
 }
 
 const key = loadServiceAccountKey();
-if (!key) {
-    console.error('❌ Missing service account key JSON file.');
-    console.error('Please download your service account key from Firebase Console and save it as beer-sheva-service-account.json');
-    process.exit(1);
+if (key) {
+    admin.initializeApp({ credential: admin.credential.cert(key) });
+} else {
+    try {
+        admin.initializeApp({ projectId: FIREBASE_PROJECT_ID });
+    } catch (e) {
+        console.error('❌ No Firebase credentials found.');
+        console.error('Option 1: Download service account key from Firebase Console → Project Settings → Service accounts → Generate new key, save as beer-sheva-service-account.json in project root.');
+        console.error('Option 2: Set GOOGLE_APPLICATION_CREDENTIALS to the path of your service account JSON, or run: gcloud auth application-default login');
+        process.exit(1);
+    }
 }
-
-admin.initializeApp({
-    credential: admin.credential.cert(key)
-});
 
 const db = admin.firestore();
 

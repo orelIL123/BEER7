@@ -38,7 +38,27 @@
     "plugins": [
       "expo-router",
       "expo-updates",
-      ["expo-build-properties",{"ios":{"extraPods":[{"name":"GoogleUtilities","modular_headers":true},{"name":"FirebaseCore","modular_headers":true},{"name":"nanopb","modular_headers":true}]}}]
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "extraPods": [
+              {
+                "name": "GoogleUtilities",
+                "modular_headers": true
+              },
+              {
+                "name": "FirebaseCore",
+                "modular_headers": true
+              },
+              {
+                "name": "nanopb",
+                "modular_headers": true
+              }
+            ]
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
@@ -52,7 +72,8 @@
     "updates": {
       "enabled": true,
       "checkAutomatically": "ON_LOAD",
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/b3d2a29d-f462-4b30-9dde-3cb8120533ce"
     },
     "runtimeVersion": {
       "policy": "appVersion"

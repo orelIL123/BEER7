@@ -10,6 +10,7 @@ node_modules/
 
 # Service Account Keys (NEVER commit these!)
 *-firebase-adminsdk-*.json
+beer-sheva-service-account.json
 
 # Expo
 .expo/

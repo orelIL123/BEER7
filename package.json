@@ -10,7 +10,9 @@
     "firebase:deploy": "firebase deploy --only firestore,storage,functions",
     "firebase:seed": "node scripts/seed-firestore.js",
     "firebase:admin": "node scripts/create-admin-user.js",
-    "firebase:init": "node scripts/init-firestore.js"
+    "firebase:init": "node scripts/init-firestore.js",
+    "eas:update": "eas update --branch production --message \"Update\"",
+    "eas:update:ios": "eas update --branch production --platform ios --message \"Update\""
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
