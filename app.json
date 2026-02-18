@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.beer-sheva.app",
+      "bundleIdentifier": "com.beer_sheva.app",
       "googleServicesFile": "./GoogleService-Info-17.plist",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -27,7 +27,7 @@
         "backgroundColor": "#DC2626"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.beer-sheva.app",
+      "package": "com.beer_sheva.app",
       "googleServicesFile": "./google-services-16.json"
     },
     "web": {
